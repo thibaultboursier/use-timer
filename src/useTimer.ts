@@ -57,5 +57,5 @@ export const useTimer = (config?: IConfig): IValues => {
     createTimer();
   };
 
-  return { time, start, reset, pause };
+  return { time, start, pause, reset };
 };

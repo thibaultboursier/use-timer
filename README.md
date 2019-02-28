@@ -5,7 +5,7 @@ Simple timer hook for React [WORK IN PROGRESS].
 Install it with npm:
 
 ```
-npm i use-debounce --save
+npm i use-timer --save
 ```
 
 ## Simple timer

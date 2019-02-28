@@ -1,0 +1,31 @@
+{
+  "name": "use-timer",
+  "version": "0.1.0",
+  "description": "A timer hook for React",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thibaultboursier/use-timer.git"
+  },
+  "keywords": [
+    "react",
+    "react-hook",
+    "react-hooks",
+    "timer"
+  ],
+  "author": "Thibault Boursier",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thibaultboursier/use-timer/issues"
+  },
+  "homepage": "https://github.com/thibaultboursier/use-timer#readme",
+  "dependencies": {
+    "@types/node": "^11.9.6",
+    "@types/react": "^16.8.6",
+    "react-dom": "^16.8.3",
+    "react": "^16.8.3"
+  }
+}

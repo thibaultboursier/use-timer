@@ -1,5 +1,5 @@
 {
     "validations": {
-        "gitTag": false,
+        "gitTag": false
     }
 }

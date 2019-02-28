@@ -28,5 +28,9 @@
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "typescript": "^3.3.3333"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
   }
 }

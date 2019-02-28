@@ -11,6 +11,9 @@ npm i use-timer --save
 ## Simple timer
 
 ```javascript
+import React from 'react';
+import { useTimer } from 'use-timer';
+
 const App = () => {
   const { time, start, pause, reset } = useTimer();
 

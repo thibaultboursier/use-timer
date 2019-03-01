@@ -1,6 +1,6 @@
 # use-timer
 
-Simple timer hook for React [WORK IN PROGRESS].
+Simple timer hook for React.
 
 Install it with npm:
 

@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/thibaultboursier/use-timer#readme",
   "devDependencies": {
+    "@types/enzyme": "^3.9.0",
     "@types/jest": "^24.0.9",
     "@types/node": "^11.9.6",
     "@types/react-dom": "^16.8.2",
@@ -42,8 +43,5 @@
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"
   },
-  "typings": "./lib/index.d.ts",
-  "dependencies": {
-    "@types/enzyme": "^3.9.0"
-  }
+  "typings": "./lib/index.d.ts"
 }

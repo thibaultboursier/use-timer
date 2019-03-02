@@ -1,7 +1,7 @@
 import "jsdom-global/register";
 import Enzyme from "enzyme";
 import React from "react";
-import { useTimer } from "./useTimer";
+import { useTimer, TimerType } from "./useTimer";
 import { act } from "react-dom/test-utils";
 
 jest.useFakeTimers();
@@ -52,6 +52,32 @@ it("should start timer with an initial time of 10", () => {
   });
 
   expect(time.text()).toBe("15");
+});
+
+it("should start decremental timer with an initial time of 100", () => {
+  const Component = () => {
+    const { time, start } = useTimer({
+      initialTime: 100,
+      timerType: TimerType.Decremental,
+    });
+    return (
+      <div>
+        <button onClick={start}>Start</button>
+        <p>{time}</p>
+      </div>
+    );
+  };
+  const wrapper = Enzyme.mount(<Component />);
+  const button = wrapper.find("button");
+  const time = wrapper.find("p");
+
+  button.simulate("click");
+
+  act(() => {
+    jest.runTimersToTime(20000);
+  });
+
+  expect(time.text()).toBe("80");
 });
 
 it("should update time with an interval of 2000 milliseconds", () => {
@@ -114,7 +140,7 @@ it("should pause timer", () => {
   expect(time.text()).toBe("5");
 });
 
-it("should reset timer", () => {
+it("should reset timer to default initial time", () => {
   const Component = () => {
     const { time, start, pause, reset } = useTimer();
     return (
@@ -143,4 +169,37 @@ it("should reset timer", () => {
   resetButton.simulate("click");
 
   expect(time.text()).toBe("0");
+});
+
+it("should reset timer to initial time of 20", () => {
+  const Component = () => {
+    const { time, start, pause, reset } = useTimer({
+      initialTime: 20,
+    });
+    return (
+      <div>
+        <button id="start" onClick={start}>
+          Start
+        </button>
+        <button id="reset" onClick={reset}>
+          Reset
+        </button>
+        <p>{time}</p>
+      </div>
+    );
+  };
+  const wrapper = Enzyme.mount(<Component />);
+  const startButton = wrapper.find("#start");
+  const resetButton = wrapper.find("#reset");
+  const time = wrapper.find("p");
+
+  startButton.simulate("click");
+
+  act(() => {
+    jest.runTimersToTime(5000);
+  });
+
+  resetButton.simulate("click");
+
+  expect(time.text()).toBe("20");
 });

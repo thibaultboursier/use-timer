@@ -1,11 +1,17 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
-interface IConfig {
-  initialTime?: number;
-  interval?: number;
+export enum TimerType {
+  Decremental = 'DECREMENTAL',
+  Incremental = 'INCREMENTAL',
 }
 
-interface IValues {
+export interface IConfig {
+  initialTime?: number;
+  interval?: number;
+  timerType?: TimerType;
+}
+
+export interface IValues {
   pause: () => void;
   reset: () => void;
   start: () => void;
@@ -14,11 +20,12 @@ interface IValues {
 
 const initialConfig = {
   initialTime: 0,
-  interval: 1000
+  interval: 1000,
+  timerType: TimerType.Incremental,
 };
 
 export const useTimer = (config?: IConfig): IValues => {
-  const { initialTime, interval } = {
+  const { initialTime, interval, timerType } = {
     ...initialConfig,
     ...config
   };
@@ -36,7 +43,9 @@ export const useTimer = (config?: IConfig): IValues => {
 
   const createTimer = () => {
     intervalRef.current = setInterval(() => {
-      setTime(++time);
+      const newTime = timerType === TimerType.Incremental ? ++time : --time;
+
+      setTime(newTime);
     }, interval);
   };
 
@@ -46,7 +55,7 @@ export const useTimer = (config?: IConfig): IValues => {
 
   const reset = () => {
     cancelTimer();
-    setTime(0);
+    setTime(initialTime);
   };
 
   const start = () => {

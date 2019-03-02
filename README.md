@@ -44,7 +44,7 @@ import { useTimer } from 'use-timer';
 
 const App = () => {
   const { time, start, pause, reset } = useTimer({
-    initialValue: 100,
+    initialTime: 100,
     timerType: 'DECREMENTAL',
   });
 

@@ -58,7 +58,7 @@ it("should start decremental timer with an initial time of 100", () => {
   const Component = () => {
     const { time, start } = useTimer({
       initialTime: 100,
-      timerType: TimerType.Decremental,
+      timerType: 'DECREMENTAL',
     });
     return (
       <div>

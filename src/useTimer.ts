@@ -1,9 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 
-export enum TimerType {
-  Decremental = 'DECREMENTAL',
-  Incremental = 'INCREMENTAL',
-}
+export type TimerType = 'DECREMENTAL' | 'INCREMENTAL';
 
 export interface IConfig {
   initialTime?: number;
@@ -21,7 +18,7 @@ export interface IValues {
 const initialConfig = {
   initialTime: 0,
   interval: 1000,
-  timerType: TimerType.Incremental,
+  timerType: 'INCREMENTAL',
 };
 
 export const useTimer = (config?: IConfig): IValues => {
@@ -43,7 +40,7 @@ export const useTimer = (config?: IConfig): IValues => {
 
   const createTimer = () => {
     intervalRef.current = setInterval(() => {
-      const newTime = timerType === TimerType.Incremental ? ++time : --time;
+      const newTime = timerType === 'INCREMENTAL' ? ++time : --time;
 
       setTime(newTime);
     }, interval);

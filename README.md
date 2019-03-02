@@ -69,5 +69,5 @@ The configuration and all its parameters are optional.
 | --- | --- | --- | ---- |
 | initialTime | number | 0 | the starting value for the timer |
 | interval | number | 1000 | the interval in milliseconds |
-| timerType | string | 'INCREMENTAL'| the choice between a value that increases ('INCREMENTAL') or decreases ('DECREMENTAL') |
+| timerType | string | "INCREMENTAL" | the choice between a value that increases ("INCREMENTAL") or decreases ("DECREMENTAL") |
 

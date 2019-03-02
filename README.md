@@ -6,11 +6,16 @@
 Simple timer turned into React Hooks.
 Read about [Hooks](https://reactjs.org/docs/hooks-intro.html) feature.
 
+
 ## Installation
 
 ```
 npm i use-timer --save
 ```
+
+## Examples
+
+Try demo here: [https://stackblitz.com/edit/use-timer](https://stackblitz.com/edit/use-timer).
 
 ## Usage
 

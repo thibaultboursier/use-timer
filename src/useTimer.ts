@@ -63,7 +63,7 @@ export const useTimer = (config?: IConfig): IValues => {
     createTimer();
   };
 
-  useEffect(() => reset, []);
+  useEffect(() => cancelTimer, []);
 
   return { time, start, pause, reset };
 };

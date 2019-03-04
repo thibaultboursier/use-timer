@@ -40,9 +40,9 @@ export const useTimer = (config?: IConfig): IValues => {
 
   const createTimer = () => {
     intervalRef.current = setInterval(() => {
-      const newTime = timerType === 'INCREMENTAL' ? ++time : --time;
-
-      setTime(newTime);
+      setTime(previousTime => {
+        return timerType === 'INCREMENTAL' ? ++previousTime : --previousTime;
+      });
     }, interval);
   };
 

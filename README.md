@@ -66,12 +66,38 @@ const App = () => {
 };
 ```
 
+### Timer with end time
+
+```javascript
+import React from 'react';
+import { useTimer } from 'use-timer';
+
+const App = () => {
+  const { time, start, pause, reset } = useTimer({
+    endTime: 30,
+    initialTime: 10,
+  });
+
+  return (
+    <React.Fragment>
+      <div>
+        <button onClick={start}>Start</button>
+        <button onClick={pause}>Pause</button>
+        <button onClick={reset}>Reset</button>
+      </div>
+      <p>Ellapsed time: {time}</p>
+    </React.Fragment>
+  );
+};
+```
+
 ## Configuration
 
 The configuration and all its parameters are optional.
 
 | Property | Type | Default value | Description |
 | --- | --- | --- | ---- |
+| endTime | number | null | the value for which timer stops |
 | initialTime | number | 0 | the starting value for the timer |
 | interval | number | 1000 | the interval in milliseconds |
 | timerType | string | "INCREMENTAL" | the choice between a value that increases ("INCREMENTAL") or decreases ("DECREMENTAL") |

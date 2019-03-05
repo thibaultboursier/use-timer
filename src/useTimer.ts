@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from 'react';
 export type TimerType = 'DECREMENTAL' | 'INCREMENTAL';
 
 export interface IConfig {
+  endTime?: number;
   initialTime?: number;
   interval?: number;
   timerType?: TimerType;
@@ -16,13 +17,14 @@ export interface IValues {
 }
 
 const initialConfig = {
+  endTime: null,
   initialTime: 0,
   interval: 1000,
   timerType: 'INCREMENTAL',
 };
 
 export const useTimer = (config?: IConfig): IValues => {
-  const { initialTime, interval, timerType } = {
+  const { endTime, initialTime, interval, timerType } = {
     ...initialConfig,
     ...config
   };
@@ -36,6 +38,14 @@ export const useTimer = (config?: IConfig): IValues => {
 
     clearInterval(intervalRef.current);
     intervalRef.current = null;
+  };
+
+  const createTimeout = () => {
+    if (endTime === null) {
+      return;
+    }
+
+    setTimeout(cancelTimer, endTime * interval);
   };
 
   const createTimer = () => {
@@ -61,6 +71,7 @@ export const useTimer = (config?: IConfig): IValues => {
     }
 
     createTimer();
+    createTimeout();
   };
 
   useEffect(() => cancelTimer, []);

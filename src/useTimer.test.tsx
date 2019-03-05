@@ -80,6 +80,58 @@ it("should start decremental timer with an initial time of 100", () => {
   expect(time.text()).toBe("80");
 });
 
+it("should stop incremental timer when end time is reached", () => {
+  const Component = () => {
+    const { time, start } = useTimer({
+      endTime: 5,
+    });
+    return (
+      <div>
+        <button onClick={start}>Start</button>
+        <p>{time}</p>
+      </div>
+    );
+  };
+  const wrapper = Enzyme.mount(<Component />);
+  const button = wrapper.find("button");
+  const time = wrapper.find("p");
+
+  button.simulate("click");
+
+  act(() => {
+    jest.runTimersToTime(10000);
+  });
+
+  expect(time.text()).toBe("5");
+});
+
+it("should stop decremental timer when end time is reached", () => {
+  const Component = () => {
+    const { time, start } = useTimer({
+      endTime: 10,
+      initialTime: 30,
+      timerType: 'DECREMENTAL',
+    });
+    return (
+      <div>
+        <button onClick={start}>Start</button>
+        <p>{time}</p>
+      </div>
+    );
+  };
+  const wrapper = Enzyme.mount(<Component />);
+  const button = wrapper.find("button");
+  const time = wrapper.find("p");
+
+  button.simulate("click");
+
+  act(() => {
+    jest.runTimersToTime(30000);
+  });
+
+  expect(time.text()).toBe("20");
+});
+
 it("should update time with an interval of 2000 milliseconds", () => {
   const Component = () => {
     const { time, start } = useTimer({

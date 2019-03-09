@@ -4,7 +4,7 @@ os:
   - osx
 language: node_js
 node_js:
-  - node
+  - '11.10.1'
   - '10'
   - '9'
   - '8'

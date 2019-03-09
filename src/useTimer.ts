@@ -45,7 +45,9 @@ export const useTimer = (config?: IConfig): IValues => {
       return;
     }
 
-    setTimeout(cancelTimer, endTime * interval);
+    const delay = Math.abs(endTime - initialTime) * interval;
+
+    setTimeout(cancelTimer, delay);
   };
 
   const createTimer = () => {

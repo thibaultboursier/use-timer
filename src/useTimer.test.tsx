@@ -83,7 +83,8 @@ it("should start decremental timer with an initial time of 100", () => {
 it("should stop incremental timer when end time is reached", () => {
   const Component = () => {
     const { time, start } = useTimer({
-      endTime: 5,
+      endTime: 25,
+      initialTime: 5,
     });
     return (
       <div>
@@ -99,10 +100,10 @@ it("should stop incremental timer when end time is reached", () => {
   button.simulate("click");
 
   act(() => {
-    jest.runTimersToTime(10000);
+    jest.runTimersToTime(40000);
   });
 
-  expect(time.text()).toBe("5");
+  expect(time.text()).toBe("25");
 });
 
 it("should stop decremental timer when end time is reached", () => {
@@ -129,7 +130,7 @@ it("should stop decremental timer when end time is reached", () => {
     jest.runTimersToTime(30000);
   });
 
-  expect(time.text()).toBe("20");
+  expect(time.text()).toBe("10");
 });
 
 it("should update time with an interval of 2000 milliseconds", () => {

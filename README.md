@@ -100,5 +100,6 @@ The configuration and all its parameters are optional.
 | endTime | number | null | the value for which timer stops |
 | initialTime | number | 0 | the starting value for the timer |
 | interval | number | 1000 | the interval in milliseconds |
+| step | number | 1 | the value to add to each increment / decrement |
 | timerType | string | "INCREMENTAL" | the choice between a value that increases ("INCREMENTAL") or decreases ("DECREMENTAL") |
 

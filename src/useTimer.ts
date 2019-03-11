@@ -3,11 +3,11 @@ import { useEffect, useRef, useState } from 'react';
 export type TimerType = 'DECREMENTAL' | 'INCREMENTAL';
 
 export interface IConfig {
-  endTime: number;
+  endTime: number | null;
   initialTime: number;
   interval: number;
-  timerType: TimerType;
   step: number;
+  timerType: TimerType;
 }
 
 export interface IValues {
@@ -18,36 +18,33 @@ export interface IValues {
 }
 
 const initialConfig: IConfig = {
-  endTime: 0,
+  endTime: null,
   initialTime: 0,
   interval: 1000,
   timerType: 'INCREMENTAL',
   step: 1
 };
 
-export const useTimer = (config: Partial<IConfig> = initialConfig): IValues => {
-  const { endTime, initialTime, interval, timerType, step } = {
+export const useTimer = (config?: Partial<IConfig>): IValues => {
+  const { endTime, initialTime, interval, step, timerType } = {
     ...initialConfig,
     ...config
   };
-  let intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const [time, setTime] = useState(initialTime);
 
   const cancelTimer = () => {
-    if (intervalRef.current !== null) {
+    if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
   };
 
   const createTimeout = () => {
-    if (endTime === null) {
-      return;
+    if (endTime !== null) {
+      const delay = Math.abs(endTime - initialTime) * interval;
+      setTimeout(cancelTimer, delay);
     }
-
-    const delay = Math.abs(endTime - initialTime) * interval;
-
-    setTimeout(cancelTimer, delay);
   };
 
   const createTimer = () => {
@@ -68,15 +65,18 @@ export const useTimer = (config: Partial<IConfig> = initialConfig): IValues => {
   };
 
   const start = () => {
-    if (intervalRef.current === null) {
-      createTimer();
+    if (intervalRef.current) {
+      return;
     }
-    if (endTime > 0) {
+
+    createTimer();
+
+    if (endTime !== null) {
       createTimeout();
     }
   };
 
   useEffect(() => cancelTimer, []);
 
-  return { time, start, pause, reset };
+  return { pause, reset, start, time };
 };

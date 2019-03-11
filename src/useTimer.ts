@@ -1,12 +1,13 @@
-import React, { useRef, useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export type TimerType = 'DECREMENTAL' | 'INCREMENTAL';
 
 export interface IConfig {
-  endTime?: number;
-  initialTime?: number;
-  interval?: number;
-  timerType?: TimerType;
+  endTime: number;
+  initialTime: number;
+  interval: number;
+  timerType: TimerType;
+  step: number;
 }
 
 export interface IValues {
@@ -16,28 +17,27 @@ export interface IValues {
   time: number;
 }
 
-const initialConfig = {
-  endTime: null,
+const initialConfig: IConfig = {
+  endTime: 0,
   initialTime: 0,
   interval: 1000,
   timerType: 'INCREMENTAL',
+  step: 1
 };
 
-export const useTimer = (config?: IConfig): IValues => {
-  const { endTime, initialTime, interval, timerType } = {
+export const useTimer = (config: Partial<IConfig> = initialConfig): IValues => {
+  const { endTime, initialTime, interval, timerType, step } = {
     ...initialConfig,
     ...config
   };
   let intervalRef = useRef<NodeJS.Timeout | null>(null);
-  let [time, setTime] = useState(initialTime);
+  const [time, setTime] = useState(initialTime);
 
   const cancelTimer = () => {
-    if (!intervalRef.current) {
-      return;
+    if (intervalRef.current !== null) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
     }
-
-    clearInterval(intervalRef.current);
-    intervalRef.current = null;
   };
 
   const createTimeout = () => {
@@ -52,9 +52,9 @@ export const useTimer = (config?: IConfig): IValues => {
 
   const createTimer = () => {
     intervalRef.current = setInterval(() => {
-      setTime(previousTime => {
-        return timerType === 'INCREMENTAL' ? ++previousTime : --previousTime;
-      });
+      setTime(previousTime =>
+        timerType === 'INCREMENTAL' ? previousTime + step : previousTime - step
+      );
     }, interval);
   };
 
@@ -68,12 +68,12 @@ export const useTimer = (config?: IConfig): IValues => {
   };
 
   const start = () => {
-    if (intervalRef.current) {
-      return;
+    if (intervalRef.current === null) {
+      createTimer();
     }
-
-    createTimer();
-    createTimeout();
+    if (endTime > 0) {
+      createTimeout();
+    }
   };
 
   useEffect(() => cancelTimer, []);

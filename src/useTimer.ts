@@ -43,6 +43,13 @@ export const useTimer = (config?: Partial<IConfig>): IValues => {
     }
   };
 
+  const cancelPausedTime = () => {
+    if (pausedTimeRef.current) {
+      clearTimeout(pausedTimeRef.current);
+      pausedTimeRef.current = null;
+    }
+  };
+
   const cancelTimeout = () => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -80,6 +87,7 @@ export const useTimer = (config?: Partial<IConfig>): IValues => {
 
   const reset = () => {
     cancelInterval();
+    cancelPausedTime();
     cancelTimeout();
     resetTime();
   };

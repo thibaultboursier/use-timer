@@ -31,6 +31,7 @@ export const useTimer = (config?: Partial<IConfig>): IValues => {
     ...config
   };
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const [shouldResetTime, setShouldResetTime] = useState(false);
   const [time, setTime] = useState(initialTime);
 
   const cancelTimer = () => {
@@ -41,10 +42,16 @@ export const useTimer = (config?: Partial<IConfig>): IValues => {
   };
 
   const createTimeout = () => {
-    if (endTime !== null) {
-      const delay = Math.abs(endTime - initialTime) * interval;
-      setTimeout(cancelTimer, delay);
+    if (endTime === null) {
+      return;
     }
+
+    const delay = Math.abs(endTime - initialTime) * interval;
+
+    setTimeout(() => {
+      cancelTimer();
+      setShouldResetTime(true);
+    }, delay);
   };
 
   const createTimer = () => {
@@ -61,6 +68,10 @@ export const useTimer = (config?: Partial<IConfig>): IValues => {
 
   const reset = () => {
     cancelTimer();
+    resetTime();
+  };
+
+  const resetTime = () => {
     setTime(initialTime);
   };
 
@@ -69,11 +80,13 @@ export const useTimer = (config?: Partial<IConfig>): IValues => {
       return;
     }
 
-    createTimer();
-
-    if (endTime !== null) {
-      createTimeout();
+    if (shouldResetTime) {
+      resetTime();
+      setShouldResetTime(false);
     }
+
+    createTimer();
+    createTimeout();
   };
 
   useEffect(() => cancelTimer, []);

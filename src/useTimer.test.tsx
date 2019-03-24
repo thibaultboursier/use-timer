@@ -224,6 +224,39 @@ it("should reset timer to default initial time", () => {
   expect(time.text()).toBe("0");
 });
 
+it("should reset timer to default initial time after restart", () => {
+  const Component = () => {
+    const { time, start } = useTimer({
+      endTime: 10,
+    });
+    return (
+      <div>
+        <button id="start" onClick={start}>
+          Start
+        </button>
+        <p>{time}</p>
+      </div>
+    );
+  };
+  const wrapper = Enzyme.mount(<Component />);
+  const startButton = wrapper.find("#start");
+  const time = wrapper.find("p");
+
+  startButton.simulate("click");
+
+  act(() => {
+    jest.runTimersToTime(10000);
+  });
+
+  startButton.simulate("click");
+
+  act(() => {
+    jest.runTimersToTime(5000);
+  });
+
+  expect(time.text()).toBe("5");
+});
+
 it("should reset timer to initial time of 20", () => {
   const Component = () => {
     const { time, start, pause, reset } = useTimer({

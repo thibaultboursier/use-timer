@@ -23,7 +23,7 @@ it("should start timer", () => {
   button.simulate("click");
 
   act(() => {
-    jest.runTimersToTime(5000);
+    jest.advanceTimersByTime(5000);
   });
 
   expect(time.text()).toBe("5");
@@ -48,7 +48,7 @@ it("should start timer with an initial time of 10", () => {
   button.simulate("click");
 
   act(() => {
-    jest.runTimersToTime(5000);
+    jest.advanceTimersByTime(5000);
   });
 
   expect(time.text()).toBe("15");
@@ -74,7 +74,7 @@ it("should start decremental timer with an initial time of 100", () => {
   button.simulate("click");
 
   act(() => {
-    jest.runTimersToTime(20000);
+    jest.advanceTimersByTime(20000);
   });
 
   expect(time.text()).toBe("80");
@@ -100,7 +100,7 @@ it("should stop incremental timer when end time is reached", () => {
   button.simulate("click");
 
   act(() => {
-    jest.runTimersToTime(40000);
+    jest.advanceTimersByTime(40000);
   });
 
   expect(time.text()).toBe("25");
@@ -127,7 +127,7 @@ it("should stop decremental timer when end time is reached", () => {
   button.simulate("click");
 
   act(() => {
-    jest.runTimersToTime(30000);
+    jest.advanceTimersByTime(30000);
   });
 
   expect(time.text()).toBe("10");
@@ -152,7 +152,7 @@ it("should update time with an interval of 2000 milliseconds", () => {
   button.simulate("click");
 
   act(() => {
-    jest.runTimersToTime(10000);
+    jest.advanceTimersByTime(10000);
   });
 
   expect(time.text()).toBe("5");
@@ -181,13 +181,13 @@ it("should pause timer", () => {
   startButton.simulate("click");
 
   act(() => {
-    jest.runTimersToTime(5000);
+    jest.advanceTimersByTime(5000);
   });
 
   pauseButton.simulate("click");
 
   act(() => {
-    jest.runTimersToTime(5000);
+    jest.advanceTimersByTime(5000);
   });
 
   expect(time.text()).toBe("5");
@@ -216,7 +216,7 @@ it("should reset timer to default initial time", () => {
   startButton.simulate("click");
 
   act(() => {
-    jest.runTimersToTime(5000);
+    jest.advanceTimersByTime(5000);
   });
 
   resetButton.simulate("click");
@@ -245,13 +245,13 @@ it("should reset timer to default initial time after restart", () => {
   startButton.simulate("click");
 
   act(() => {
-    jest.runTimersToTime(10000);
+    jest.advanceTimersByTime(10000);
   });
 
   startButton.simulate("click");
 
   act(() => {
-    jest.runTimersToTime(5000);
+    jest.advanceTimersByTime(5000);
   });
 
   expect(time.text()).toBe("5");
@@ -282,7 +282,7 @@ it("should reset timer to initial time of 20", () => {
   startButton.simulate("click");
 
   act(() => {
-    jest.runTimersToTime(5000);
+    jest.advanceTimersByTime(5000);
   });
 
   resetButton.simulate("click");

@@ -36,17 +36,15 @@ export const useTimer = (config?: Partial<IConfig>): IValues => {
   const [shouldResetTime, setShouldResetTime] = useState(false);
   const [time, setTime] = useState(initialTime);
 
+  const cancelTimers = () => {
+    cancelInterval();
+    cancelTimeout();
+  };
+  
   const cancelInterval = () => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
-    }
-  };
-
-  const cancelPausedTime = () => {
-    if (pausedTimeRef.current) {
-      clearTimeout(pausedTimeRef.current);
-      pausedTimeRef.current = null;
     }
   };
 
@@ -81,14 +79,13 @@ export const useTimer = (config?: Partial<IConfig>): IValues => {
   const pause = () => {
     pausedTimeRef.current = time;
 
-    cancelInterval();
-    cancelTimeout();
+    cancelTimers();
   };
 
   const reset = () => {
-    cancelInterval();
-    cancelPausedTime();
-    cancelTimeout();
+    pausedTimeRef.current = null;
+
+    cancelTimers();
     resetTime();
   };
 
@@ -110,7 +107,7 @@ export const useTimer = (config?: Partial<IConfig>): IValues => {
     createTimeout();
   };
 
-  useEffect(() => cancelInterval, []);
+  useEffect(() => cancelTimers, []);
 
   return { pause, reset, start, time };
 };

@@ -48,7 +48,6 @@ const { time, start, pause, reset } = useTimer({
   initialTime: 100,
   timerType: 'DECREMENTAL',
 });
-};
 ```
 
 ### Timer with end time

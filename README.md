@@ -44,51 +44,20 @@ const App = () => {
 ### Decremental timer
 
 ```javascript
-import React from 'react';
-import { useTimer } from 'use-timer';
-
-const App = () => {
-  const { time, start, pause, reset } = useTimer({
-    initialTime: 100,
-    timerType: 'DECREMENTAL',
-  });
-
-  return (
-    <React.Fragment>
-      <div>
-        <button onClick={start}>Start</button>
-        <button onClick={pause}>Pause</button>
-        <button onClick={reset}>Reset</button>
-      </div>
-      <p>Remaining time: {time}</p>
-    </React.Fragment>
-  );
+const { time, start, pause, reset } = useTimer({
+  initialTime: 100,
+  timerType: 'DECREMENTAL',
+});
 };
 ```
 
 ### Timer with end time
 
 ```javascript
-import React from 'react';
-import { useTimer } from 'use-timer';
-
-const App = () => {
-  const { time, start, pause, reset } = useTimer({
-    endTime: 30,
-    initialTime: 10,
-  });
-
-  return (
-    <React.Fragment>
-      <div>
-        <button onClick={start}>Start</button>
-        <button onClick={pause}>Pause</button>
-        <button onClick={reset}>Reset</button>
-      </div>
-      <p>Ellapsed time: {time}</p>
-    </React.Fragment>
-  );
-};
+const { time, start, pause, reset } = useTimer({
+  endTime: 30,
+  initialTime: 10,
+});
 ```
 
 ## Configuration

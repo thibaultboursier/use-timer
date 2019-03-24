@@ -9,6 +9,7 @@ jest.useFakeTimers();
 it('should start timer', () => {
   const Component = () => {
     const { time, start } = useTimer();
+
     return (
       <div>
         <button onClick={start}>Start</button>
@@ -16,6 +17,7 @@ it('should start timer', () => {
       </div>
     );
   };
+
   const wrapper = Enzyme.mount(<Component />);
   const button = wrapper.find('button');
   const time = wrapper.find('p');
@@ -34,6 +36,7 @@ it('should start timer with an initial time of 10', () => {
     const { time, start } = useTimer({
       initialTime: 10,
     });
+
     return (
       <div>
         <button onClick={start}>Start</button>
@@ -41,6 +44,7 @@ it('should start timer with an initial time of 10', () => {
       </div>
     );
   };
+
   const wrapper = Enzyme.mount(<Component />);
   const button = wrapper.find('button');
   const time = wrapper.find('p');
@@ -60,6 +64,7 @@ it('should start decremental timer with an initial time of 100', () => {
       initialTime: 100,
       timerType: 'DECREMENTAL',
     });
+
     return (
       <div>
         <button onClick={start}>Start</button>
@@ -67,6 +72,7 @@ it('should start decremental timer with an initial time of 100', () => {
       </div>
     );
   };
+
   const wrapper = Enzyme.mount(<Component />);
   const button = wrapper.find('button');
   const time = wrapper.find('p');
@@ -86,6 +92,7 @@ it('should stop incremental timer when end time is reached', () => {
       endTime: 25,
       initialTime: 5,
     });
+
     return (
       <div>
         <button onClick={start}>Start</button>
@@ -93,6 +100,7 @@ it('should stop incremental timer when end time is reached', () => {
       </div>
     );
   };
+
   const wrapper = Enzyme.mount(<Component />);
   const button = wrapper.find('button');
   const time = wrapper.find('p');
@@ -113,6 +121,7 @@ it('should stop decremental timer when end time is reached', () => {
       initialTime: 30,
       timerType: 'DECREMENTAL',
     });
+
     return (
       <div>
         <button onClick={start}>Start</button>
@@ -120,6 +129,7 @@ it('should stop decremental timer when end time is reached', () => {
       </div>
     );
   };
+
   const wrapper = Enzyme.mount(<Component />);
   const button = wrapper.find('button');
   const time = wrapper.find('p');
@@ -138,6 +148,7 @@ it('should update time with an interval of 2000 milliseconds', () => {
     const { time, start } = useTimer({
       interval: 2000,
     });
+
     return (
       <div>
         <button onClick={start}>Start</button>
@@ -145,6 +156,7 @@ it('should update time with an interval of 2000 milliseconds', () => {
       </div>
     );
   };
+
   const wrapper = Enzyme.mount(<Component />);
   const button = wrapper.find('button');
   const time = wrapper.find('p');
@@ -161,6 +173,7 @@ it('should update time with an interval of 2000 milliseconds', () => {
 it('should pause timer', () => {
   const Component = () => {
     const { time, start, pause } = useTimer();
+
     return (
       <div>
         <button id="start" onClick={start}>
@@ -173,6 +186,7 @@ it('should pause timer', () => {
       </div>
     );
   };
+
   const wrapper = Enzyme.mount(<Component />);
   const startButton = wrapper.find('#start');
   const pauseButton = wrapper.find('#pause');
@@ -193,9 +207,57 @@ it('should pause timer', () => {
   expect(time.text()).toBe('5');
 });
 
+it('should pause timer with an end time', () => {
+  const Component = () => {
+    const { time, start, pause } = useTimer({
+      endTime: 5,
+    });
+
+    return (
+      <div>
+        <button id="start" onClick={start}>
+          Start
+        </button>
+        <button id="pause" onClick={pause}>
+          Start
+        </button>
+        <p>{time}</p>
+      </div>
+    );
+  };
+
+  const wrapper = Enzyme.mount(<Component />);
+  const startButton = wrapper.find('#start');
+  const pauseButton = wrapper.find('#pause');
+  const time = wrapper.find('p');
+
+  startButton.simulate('click');
+
+  act(() => {
+    jest.advanceTimersByTime(3000);
+  });
+
+  pauseButton.simulate('click');
+
+  act(() => {
+    jest.advanceTimersByTime(5000);
+  });
+
+  startButton.simulate('click');
+
+  expect(time.text()).toBe('3');
+
+  act(() => {
+    jest.advanceTimersByTime(3000);
+  });
+
+  expect(time.text()).toBe('5');
+});
+
 it('should reset timer to default initial time', () => {
   const Component = () => {
     const { time, start, pause, reset } = useTimer();
+
     return (
       <div>
         <button id="start" onClick={start}>
@@ -208,6 +270,7 @@ it('should reset timer to default initial time', () => {
       </div>
     );
   };
+
   const wrapper = Enzyme.mount(<Component />);
   const startButton = wrapper.find('#start');
   const resetButton = wrapper.find('#reset');
@@ -229,6 +292,7 @@ it('should reset timer to default initial time after restart', () => {
     const { time, start } = useTimer({
       endTime: 10,
     });
+
     return (
       <div>
         <button id="start" onClick={start}>
@@ -238,6 +302,7 @@ it('should reset timer to default initial time after restart', () => {
       </div>
     );
   };
+
   const wrapper = Enzyme.mount(<Component />);
   const startButton = wrapper.find('#start');
   const time = wrapper.find('p');
@@ -262,6 +327,7 @@ it('should reset timer to initial time of 20', () => {
     const { time, start, pause, reset } = useTimer({
       initialTime: 20,
     });
+
     return (
       <div>
         <button id="start" onClick={start}>
@@ -274,6 +340,7 @@ it('should reset timer to initial time of 20', () => {
       </div>
     );
   };
+  
   const wrapper = Enzyme.mount(<Component />);
   const startButton = wrapper.find('#start');
   const resetButton = wrapper.find('#reset');

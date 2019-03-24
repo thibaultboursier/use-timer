@@ -21,14 +21,14 @@ const initialConfig: IConfig = {
   endTime: null,
   initialTime: 0,
   interval: 1000,
+  step: 1,
   timerType: 'INCREMENTAL',
-  step: 1
 };
 
 export const useTimer = (config?: Partial<IConfig>): IValues => {
   const { endTime, initialTime, interval, step, timerType } = {
     ...initialConfig,
-    ...config
+    ...config,
   };
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const [shouldResetTime, setShouldResetTime] = useState(false);

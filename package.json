@@ -5,6 +5,8 @@
   "main": "./lib/index.js",
   "scripts": {
     "build": "tsc",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "prettify": "prettier 'src/**/*.{ts,tsx}' --write",
     "test": "jest",
     "test:watch": "jest --watch"
   },
@@ -34,9 +36,11 @@
     "jest": "^24.5.0",
     "jsdom": "13.2.0",
     "jsdom-global": "3.0.2",
+    "prettier": "1.16.4",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
     "ts-jest": "^24.0.0",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.3.4000"
   },
   "peerDependencies": {

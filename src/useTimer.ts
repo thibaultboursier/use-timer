@@ -80,6 +80,7 @@ export const useTimer = (config?: Partial<IConfig>): IValues => {
 
   const reset = () => {
     cancelInterval();
+    cancelTimeout();
     resetTime();
   };
 

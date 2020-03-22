@@ -1,12 +1,13 @@
 import 'jsdom-global/register';
 import Enzyme from 'enzyme';
 import React from 'react';
-import { useTimer, TimerType } from './useTimer';
+import { useTimer } from './useTimer';
 import { act } from 'react-dom/test-utils';
 
 jest.useFakeTimers();
 
 it('should start timer', () => {
+  // Given
   const Component = () => {
     const { time, start } = useTimer();
 
@@ -22,16 +23,19 @@ it('should start timer', () => {
   const button = wrapper.find('button');
   const time = wrapper.find('p');
 
+  // When
   button.simulate('click');
 
   act(() => {
     jest.advanceTimersByTime(5000);
   });
 
+  // Then
   expect(time.text()).toBe('5');
 });
 
 it('should start timer with an initial time of 10', () => {
+  // Given
   const Component = () => {
     const { time, start } = useTimer({
       initialTime: 10,
@@ -49,16 +53,19 @@ it('should start timer with an initial time of 10', () => {
   const button = wrapper.find('button');
   const time = wrapper.find('p');
 
+  // When
   button.simulate('click');
 
   act(() => {
     jest.advanceTimersByTime(5000);
   });
 
+  // Then
   expect(time.text()).toBe('15');
 });
 
 it('should start decremental timer with an initial time of 100', () => {
+  // Given
   const Component = () => {
     const { time, start } = useTimer({
       initialTime: 100,
@@ -77,16 +84,19 @@ it('should start decremental timer with an initial time of 100', () => {
   const button = wrapper.find('button');
   const time = wrapper.find('p');
 
+  // When
   button.simulate('click');
 
   act(() => {
     jest.advanceTimersByTime(20000);
   });
 
+  // Then
   expect(time.text()).toBe('80');
 });
 
 it('should stop incremental timer when end time is reached', () => {
+  // Given
   const Component = () => {
     const { time, start } = useTimer({
       endTime: 25,
@@ -105,16 +115,19 @@ it('should stop incremental timer when end time is reached', () => {
   const button = wrapper.find('button');
   const time = wrapper.find('p');
 
+  // When
   button.simulate('click');
 
   act(() => {
     jest.advanceTimersByTime(40000);
   });
 
+  // Then
   expect(time.text()).toBe('25');
 });
 
 it('should stop decremental timer when end time is reached', () => {
+  // Given
   const Component = () => {
     const { time, start } = useTimer({
       endTime: 10,
@@ -134,16 +147,19 @@ it('should stop decremental timer when end time is reached', () => {
   const button = wrapper.find('button');
   const time = wrapper.find('p');
 
+  // When
   button.simulate('click');
 
   act(() => {
     jest.advanceTimersByTime(30000);
   });
 
+  // Then
   expect(time.text()).toBe('10');
 });
 
 it('should update time with an interval of 2000 milliseconds', () => {
+  // Given
   const Component = () => {
     const { time, start } = useTimer({
       interval: 2000,
@@ -161,16 +177,19 @@ it('should update time with an interval of 2000 milliseconds', () => {
   const button = wrapper.find('button');
   const time = wrapper.find('p');
 
+  // When
   button.simulate('click');
 
   act(() => {
     jest.advanceTimersByTime(10000);
   });
 
+  // Then
   expect(time.text()).toBe('5');
 });
 
 it('should pause timer', () => {
+  // Given
   const Component = () => {
     const { time, start, pause } = useTimer();
 
@@ -192,6 +211,7 @@ it('should pause timer', () => {
   const pauseButton = wrapper.find('#pause');
   const time = wrapper.find('p');
 
+  // When
   startButton.simulate('click');
 
   act(() => {
@@ -204,10 +224,12 @@ it('should pause timer', () => {
     jest.advanceTimersByTime(5000);
   });
 
+  // Then
   expect(time.text()).toBe('5');
 });
 
 it('should pause timer with an end time', () => {
+  // Given
   const Component = () => {
     const { time, start, pause } = useTimer({
       endTime: 5,
@@ -231,6 +253,7 @@ it('should pause timer with an end time', () => {
   const pauseButton = wrapper.find('#pause');
   const time = wrapper.find('p');
 
+  // When
   startButton.simulate('click');
 
   act(() => {
@@ -245,6 +268,7 @@ it('should pause timer with an end time', () => {
 
   startButton.simulate('click');
 
+  // Then
   expect(time.text()).toBe('3');
 
   act(() => {
@@ -255,8 +279,9 @@ it('should pause timer with an end time', () => {
 });
 
 it('should reset timer to default initial time', () => {
+  // Given
   const Component = () => {
-    const { time, start, pause, reset } = useTimer();
+    const { time, start, reset } = useTimer();
 
     return (
       <div>
@@ -276,6 +301,7 @@ it('should reset timer to default initial time', () => {
   const resetButton = wrapper.find('#reset');
   const time = wrapper.find('p');
 
+  // When
   startButton.simulate('click');
 
   act(() => {
@@ -284,10 +310,12 @@ it('should reset timer to default initial time', () => {
 
   resetButton.simulate('click');
 
+  // Then
   expect(time.text()).toBe('0');
 });
 
 it('should reset timer to default initial time after restart', () => {
+  // Given
   const Component = () => {
     const { time, start } = useTimer({
       endTime: 10,
@@ -307,6 +335,7 @@ it('should reset timer to default initial time after restart', () => {
   const startButton = wrapper.find('#start');
   const time = wrapper.find('p');
 
+  // When
   startButton.simulate('click');
 
   act(() => {
@@ -319,12 +348,14 @@ it('should reset timer to default initial time after restart', () => {
     jest.advanceTimersByTime(5000);
   });
 
+  // Then
   expect(time.text()).toBe('5');
 });
 
 it('should reset timer to initial time of 20', () => {
+  // Given
   const Component = () => {
-    const { time, start, pause, reset } = useTimer({
+    const { time, start, reset } = useTimer({
       initialTime: 20,
     });
 
@@ -346,6 +377,7 @@ it('should reset timer to initial time of 20', () => {
   const resetButton = wrapper.find('#reset');
   const time = wrapper.find('p');
 
+  // When
   startButton.simulate('click');
 
   act(() => {
@@ -354,5 +386,60 @@ it('should reset timer to initial time of 20', () => {
 
   resetButton.simulate('click');
 
+  // Then
   expect(time.text()).toBe('20');
+});
+
+it('should display "Running" text when timer is running', () => {
+  // Given
+  const Component = () => {
+    const { isRunning, start, pause, reset } = useTimer({
+      initialTime: 20,
+    });
+
+    return (
+      <div>
+        <button id="start" onClick={start}>
+          Start
+        </button>
+        <button id="pause" onClick={pause}>
+          Pause
+        </button>
+        <button id="reset" onClick={reset}>
+          Reset
+        </button>
+        <p>{isRunning ? 'Running' : 'Not running'}</p>
+      </div>
+    );
+  };
+
+  const wrapper = Enzyme.mount(<Component />);
+  const startButton = wrapper.find('#start');
+  const pauseButton = wrapper.find('#pause');
+  const resetButton = wrapper.find('#reset');
+  const statusBlock = wrapper.find('p');
+
+  // When
+  startButton.simulate('click');
+
+  // Then
+  expect(statusBlock.text()).toBe('Running');
+
+  // When
+  pauseButton.simulate('click');
+
+  // Expect
+  expect(statusBlock.text()).toBe('Not running');
+
+  // When
+  startButton.simulate('click');
+
+  // Expect
+  expect(statusBlock.text()).toBe('Running');
+
+  // When
+  resetButton.simulate('click');
+
+  // Expect
+  expect(statusBlock.text()).toBe('Not running');
 });

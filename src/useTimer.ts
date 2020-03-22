@@ -11,6 +11,7 @@ export interface IConfig {
 }
 
 export interface IValues {
+  isRunning: boolean;
   pause: () => void;
   reset: () => void;
   start: () => void;
@@ -34,15 +35,19 @@ export const useTimer = (config?: Partial<IConfig>): IValues => {
   const pausedTimeRef = useRef<number | null>(null);
   const [shouldResetTime, setShouldResetTime] = useState(false);
   const [time, setTime] = useState(initialTime);
+  const [isRunning, setIsRunning] = useState(false);
 
   const cancelInterval = () => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
+      setIsRunning(false);
     }
   };
 
   const createInterval = () => {
+    setIsRunning(true);
+
     intervalRef.current = setInterval(() => {
       setTime(previousTime => {
         const newTime =
@@ -92,5 +97,5 @@ export const useTimer = (config?: Partial<IConfig>): IValues => {
 
   useEffect(() => cancelInterval, []);
 
-  return { pause, reset, start, time };
+  return { isRunning, pause, reset, start, time };
 };

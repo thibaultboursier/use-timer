@@ -32,15 +32,9 @@ export const useTimer = (config?: Partial<IConfig>): IValues => {
   };
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const pausedTimeRef = useRef<number | null>(null);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [shouldResetTime, setShouldResetTime] = useState(false);
   const [time, setTime] = useState(initialTime);
 
-  const cancelTimers = () => {
-    cancelInterval();
-    cancelTimeout();
-  };
-  
   const cancelInterval = () => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
@@ -48,44 +42,34 @@ export const useTimer = (config?: Partial<IConfig>): IValues => {
     }
   };
 
-  const cancelTimeout = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-  };
-
   const createInterval = () => {
     intervalRef.current = setInterval(() => {
-      setTime(previousTime =>
-        timerType === 'INCREMENTAL' ? previousTime + step : previousTime - step
-      );
+      setTime(previousTime => {
+        const newTime =
+          timerType === 'INCREMENTAL'
+            ? previousTime + step
+            : previousTime - step;
+
+        if (endTime !== null && newTime === endTime) {
+          cancelInterval();
+          setShouldResetTime(true);
+        }
+
+        return newTime;
+      });
     }, interval);
-  };
-
-  const createTimeout = () => {
-    if (endTime === null) {
-      return;
-    }
-    
-    const delay = Math.abs(endTime - (pausedTimeRef.current || initialTime)) * interval;
-
-    timeoutRef.current = setTimeout(() => {
-      cancelInterval();
-      setShouldResetTime(true);
-    }, delay);
   };
 
   const pause = () => {
     pausedTimeRef.current = time;
 
-    cancelTimers();
+    cancelInterval();
   };
 
   const reset = () => {
     pausedTimeRef.current = null;
 
-    cancelTimers();
+    cancelInterval();
     resetTime();
   };
 
@@ -104,10 +88,9 @@ export const useTimer = (config?: Partial<IConfig>): IValues => {
     }
 
     createInterval();
-    createTimeout();
   };
 
-  useEffect(() => cancelTimers, []);
+  useEffect(() => cancelInterval, []);
 
   return { pause, reset, start, time };
 };

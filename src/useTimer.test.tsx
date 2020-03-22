@@ -340,7 +340,7 @@ it('should reset timer to initial time of 20', () => {
       </div>
     );
   };
-  
+
   const wrapper = Enzyme.mount(<Component />);
   const startButton = wrapper.find('#start');
   const resetButton = wrapper.find('#reset');

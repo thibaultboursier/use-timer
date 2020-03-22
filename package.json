@@ -1,6 +1,6 @@
 {
   "name": "use-timer",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A timer hook for React",
   "main": "./lib/index.js",
   "scripts": {

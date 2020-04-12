@@ -27,7 +27,7 @@ const App = () => {
   const { time, start, pause, reset, isRunning } = useTimer();
 
   return (
-    <React.Fragment>
+    <>
       <div>
         <button onClick={start}>Start</button>
         <button onClick={pause}>Pause</button>
@@ -35,7 +35,7 @@ const App = () => {
       </div>
       <p>Elapsed time: {time}</p>
       {isRunning && <p>Running...</p>}
-    </React.Fragment>
+    </>
   );
 };
 ```
@@ -62,10 +62,11 @@ const { time, start, pause, reset, isRunning } = useTimer({
 
 The configuration and all its parameters are optional.
 
-| Property    | Type   | Default value | Description                                                                            |
-| ----------- | ------ | ------------- | -------------------------------------------------------------------------------------- |
-| endTime     | number | null          | the value for which timer stops                                                        |
-| initialTime | number | 0             | the starting value for the timer                                                       |
-| interval    | number | 1000          | the interval in milliseconds                                                           |
-| step        | number | 1             | the value to add to each increment / decrement                                         |
-| timerType   | string | "INCREMENTAL" | the choice between a value that increases ("INCREMENTAL") or decreases ("DECREMENTAL") |
+| Property    | Type     | Default value | Description                                                                            |
+| ----------- | -------- | ------------- | -------------------------------------------------------------------------------------- |
+| endTime     | number   | null          | the value for which timer stops                                                        |
+| initialTime | number   | 0             | the starting value for the timer                                                       |
+| interval    | number   | 1000          | the interval in milliseconds                                                           |
+| onTimeOver  | function |               | callback function that is called when time is over                                     |
+| step        | number   | 1             | the value to add to each increment / decrement                                         |
+| timerType   | string   | "INCREMENTAL" | the choice between a value that increases ("INCREMENTAL") or decreases ("DECREMENTAL") |

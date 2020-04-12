@@ -6,6 +6,7 @@ export interface IConfig {
   endTime: number | null;
   initialTime: number;
   interval: number;
+  onTimeOver?: () => void;
   step: number;
   timerType: TimerType;
 }
@@ -27,7 +28,7 @@ const initialConfig: IConfig = {
 };
 
 export const useTimer = (config?: Partial<IConfig>): IValues => {
-  const { endTime, initialTime, interval, step, timerType } = {
+  const { endTime, initialTime, interval, onTimeOver, step, timerType } = {
     ...initialConfig,
     ...config,
   };
@@ -56,8 +57,7 @@ export const useTimer = (config?: Partial<IConfig>): IValues => {
             : previousTime - step;
 
         if (endTime !== null && newTime === endTime) {
-          cancelInterval();
-          setShouldResetTime(true);
+          stopTimerWhenTimeIsOver();
         }
 
         return newTime;
@@ -93,6 +93,15 @@ export const useTimer = (config?: Partial<IConfig>): IValues => {
     }
 
     createInterval();
+  };
+
+  const stopTimerWhenTimeIsOver = () => {
+    cancelInterval();
+    setShouldResetTime(true);
+
+    if (typeof onTimeOver === 'function') {
+      onTimeOver();
+    }
   };
 
   useEffect(() => cancelInterval, []);

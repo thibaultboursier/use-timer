@@ -443,3 +443,36 @@ it('should display "Running" text when timer is running', () => {
   // Expect
   expect(statusBlock.text()).toBe('Not running');
 });
+
+it('should call callback function when time is over', () => {
+  // Given
+  const onTimeOver = jest.fn();
+  const Component = () => {
+    const { start } = useTimer({
+      endTime: 30,
+      initialTime: 0,
+      onTimeOver,
+    });
+
+    return (
+      <div>
+        <button id="start" onClick={start}>
+          Start
+        </button>
+      </div>
+    );
+  };
+
+  const wrapper = Enzyme.mount(<Component />);
+  const startButton = wrapper.find('#start');
+
+  // When
+  startButton.simulate('click');
+
+  act(() => {
+    jest.advanceTimersByTime(30000);
+  });
+
+  // Then
+  expect(onTimeOver).toHaveBeenCalled();
+});

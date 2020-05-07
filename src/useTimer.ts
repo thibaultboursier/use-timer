@@ -52,12 +52,9 @@ export const useTimer = ({
     if (isRunning && time === endTime) {
       setIsRunning(false);
       setIsCountFinished(true);
+      if (onTimeOver) onTimeOver();
     }
   }, [endTime, onTimeOver, time, reset, isRunning]);
-
-  useEffect(() => {
-    if (isCountFinished && onTimeOver) onTimeOver();
-  }, [isCountFinished, onTimeOver]);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout | null = null;

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 export type TimerType = 'DECREMENTAL' | 'INCREMENTAL';
 
@@ -38,15 +38,24 @@ export const useTimer = (config?: Partial<IConfig>): IValues => {
   const [time, setTime] = useState(initialTime);
   const [isRunning, setIsRunning] = useState(false);
 
-  const cancelInterval = () => {
+  const cancelInterval = useCallback(() => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
       setIsRunning(false);
     }
-  };
+  }, []);
 
-  const createInterval = () => {
+  const stopTimerWhenTimeIsOver = useCallback(() => {
+    cancelInterval();
+    setShouldResetTime(true);
+
+    if (typeof onTimeOver === 'function') {
+      onTimeOver();
+    }
+  }, [cancelInterval, onTimeOver]);
+
+  const createInterval = useCallback(() => {
     setIsRunning(true);
 
     intervalRef.current = setInterval(() => {
@@ -63,26 +72,26 @@ export const useTimer = (config?: Partial<IConfig>): IValues => {
         return newTime;
       });
     }, interval);
-  };
+  }, [stopTimerWhenTimeIsOver, endTime, interval, step, timerType]);
 
-  const pause = () => {
+  const resetTime = useCallback(() => {
+    setTime(initialTime);
+  }, [initialTime]);
+
+  const pause = useCallback(() => {
     pausedTimeRef.current = time;
 
     cancelInterval();
-  };
+  }, [cancelInterval, time]);
 
-  const reset = () => {
+  const reset = useCallback(() => {
     pausedTimeRef.current = null;
 
     cancelInterval();
     resetTime();
-  };
+  }, [cancelInterval, resetTime]);
 
-  const resetTime = () => {
-    setTime(initialTime);
-  };
-
-  const start = () => {
+  const start = useCallback(() => {
     if (intervalRef.current) {
       return;
     }
@@ -93,18 +102,9 @@ export const useTimer = (config?: Partial<IConfig>): IValues => {
     }
 
     createInterval();
-  };
+  }, [createInterval, resetTime, shouldResetTime]);
 
-  const stopTimerWhenTimeIsOver = () => {
-    cancelInterval();
-    setShouldResetTime(true);
-
-    if (typeof onTimeOver === 'function') {
-      onTimeOver();
-    }
-  };
-
-  useEffect(() => cancelInterval, []);
+  useEffect(() => cancelInterval, [cancelInterval]);
 
   return { isRunning, pause, reset, start, time };
 };

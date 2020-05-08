@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 export type TimerType = 'DECREMENTAL' | 'INCREMENTAL';
 
@@ -19,92 +19,60 @@ export interface IValues {
   time: number;
 }
 
-const initialConfig: IConfig = {
-  endTime: null,
-  initialTime: 0,
-  interval: 1000,
-  step: 1,
-  timerType: 'INCREMENTAL',
-};
-
-export const useTimer = (config?: Partial<IConfig>): IValues => {
-  const { endTime, initialTime, interval, onTimeOver, step, timerType } = {
-    ...initialConfig,
-    ...config,
-  };
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const pausedTimeRef = useRef<number | null>(null);
-  const [shouldResetTime, setShouldResetTime] = useState(false);
+export const useTimer = ({
+  initialTime = 0,
+  interval = 1000,
+  step = 1,
+  timerType = 'INCREMENTAL',
+  endTime,
+  onTimeOver,
+}: Partial<IConfig> = {}): IValues => {
   const [time, setTime] = useState(initialTime);
   const [isRunning, setIsRunning] = useState(false);
+  const [isTimeOver, setIsTimeOver] = useState(false);
 
-  const cancelInterval = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-      setIsRunning(false);
-    }
-  };
-
-  const createInterval = () => {
-    setIsRunning(true);
-
-    intervalRef.current = setInterval(() => {
-      setTime(previousTime => {
-        const newTime =
-          timerType === 'INCREMENTAL'
-            ? previousTime + step
-            : previousTime - step;
-
-        if (endTime !== null && newTime === endTime) {
-          stopTimerWhenTimeIsOver();
-        }
-
-        return newTime;
-      });
-    }, interval);
-  };
-
-  const pause = () => {
-    pausedTimeRef.current = time;
-
-    cancelInterval();
-  };
-
-  const reset = () => {
-    pausedTimeRef.current = null;
-
-    cancelInterval();
-    resetTime();
-  };
-
-  const resetTime = () => {
+  const reset = useCallback(() => {
+    setIsRunning(false);
+    setIsTimeOver(false);
     setTime(initialTime);
-  };
+  }, [initialTime]);
 
-  const start = () => {
-    if (intervalRef.current) {
-      return;
+  const start = useCallback(() => {
+    if (isTimeOver) {
+      reset();
     }
+    setIsRunning(true);
+  }, [reset, isTimeOver]);
 
-    if (shouldResetTime) {
-      resetTime();
-      setShouldResetTime(false);
+  const pause = useCallback(() => {
+    setIsRunning(false);
+  }, []);
+
+  useEffect(() => {
+    if (isRunning && time === endTime) {
+      setIsRunning(false);
+      setIsTimeOver(true);
+      if (typeof onTimeOver === 'function') {
+        onTimeOver();
+      }
     }
+  }, [endTime, onTimeOver, time, isRunning]);
 
-    createInterval();
-  };
-
-  const stopTimerWhenTimeIsOver = () => {
-    cancelInterval();
-    setShouldResetTime(true);
-
-    if (typeof onTimeOver === 'function') {
-      onTimeOver();
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout | null = null;
+    if (isRunning) {
+      intervalId = setInterval(() => {
+        setTime(time =>
+          timerType === 'DECREMENTAL' ? time - step : time + step
+        );
+      }, interval);
+    } else {
+      if (intervalId) clearInterval(intervalId);
     }
-  };
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [isRunning, step, timerType, interval]);
 
-  useEffect(() => cancelInterval, []);
-
-  return { isRunning, pause, reset, start, time };
+  return { reset, start, pause, time, isRunning };
 };

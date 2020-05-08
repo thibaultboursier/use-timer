@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 export type TimerType = 'DECREMENTAL' | 'INCREMENTAL';
 
@@ -52,6 +52,7 @@ export const useTimer = ({
     if (isRunning && time === endTime) {
       setIsRunning(false);
       setIsTimeOver(true);
+
       if (typeof onTimeOver === 'function') {
         onTimeOver();
       }
@@ -60,17 +61,21 @@ export const useTimer = ({
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout | null = null;
+
     if (isRunning) {
       intervalId = setInterval(() => {
         setTime(time =>
           timerType === 'DECREMENTAL' ? time - step : time + step
         );
       }, interval);
-    } else {
-      if (intervalId) clearInterval(intervalId);
+    } else if (intervalId) {
+      clearInterval(intervalId);
     }
+
     return () => {
-      if (intervalId) clearInterval(intervalId);
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
     };
   }, [isRunning, step, timerType, interval]);
 

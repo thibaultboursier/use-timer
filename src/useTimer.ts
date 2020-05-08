@@ -47,8 +47,10 @@ export const useTimer = ({
 
     if (isRunning) {
       intervalId = setInterval(() => {
-        setTime(time =>
-          timerType === 'DECREMENTAL' ? time - step : time + step
+        setTime(previousTime =>
+          timerType === 'DECREMENTAL'
+            ? previousTime - step
+            : previousTime + step
         );
       }, interval);
     } else if (intervalId) {

@@ -72,7 +72,7 @@ export const useTimer = ({
     return () => {
       if (intervalId) clearInterval(intervalId);
     };
-  }, [isRunning, time, step, timerType, interval]);
+  }, [isRunning, step, timerType, interval]);
 
   return { reset, start, pause, time, isRunning };
 };

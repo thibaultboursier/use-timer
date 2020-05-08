@@ -9,9 +9,8 @@ node_js:
   - '9'
   - '8'
 cache:
-  yarn: true
   directories:
     - node_modules
 script:
-  - yarn lint
-  - yarn test --ci --verbose --coverage
+  - npm run lint
+  - npm run test -- --ci --verbose --coverage

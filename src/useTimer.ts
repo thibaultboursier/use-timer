@@ -52,7 +52,9 @@ export const useTimer = ({
     if (isRunning && time === endTime) {
       setIsRunning(false);
       setIsCountFinished(true);
-      if (onTimeOver) onTimeOver();
+      if (typeof onTimeOver === 'function') {
+        onTimeOver();
+      }
     }
   }, [endTime, onTimeOver, time, reset, isRunning]);
 

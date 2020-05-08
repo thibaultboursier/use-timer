@@ -56,7 +56,7 @@ export const useTimer = ({
         onTimeOver();
       }
     }
-  }, [endTime, onTimeOver, time, reset, isRunning]);
+  }, [endTime, onTimeOver, time, isRunning]);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout | null = null;

@@ -1,23 +1,5 @@
-import { useEffect, useState, useCallback } from 'react';
-
-export type TimerType = 'DECREMENTAL' | 'INCREMENTAL';
-
-export interface IConfig {
-  endTime: number | null;
-  initialTime: number;
-  interval: number;
-  onTimeOver?: () => void;
-  step: number;
-  timerType: TimerType;
-}
-
-export interface IValues {
-  isRunning: boolean;
-  pause: () => void;
-  reset: () => void;
-  start: () => void;
-  time: number;
-}
+import { useCallback, useEffect, useState } from 'react';
+import { Config, ReturnValue } from './types';
 
 export const useTimer = ({
   initialTime = 0,
@@ -26,7 +8,7 @@ export const useTimer = ({
   timerType = 'INCREMENTAL',
   endTime,
   onTimeOver,
-}: Partial<IConfig> = {}): IValues => {
+}: Partial<Config> = {}): ReturnValue => {
   const [time, setTime] = useState(initialTime);
   const [isRunning, setIsRunning] = useState(false);
   const [isTimeOver, setIsTimeOver] = useState(false);
@@ -41,6 +23,7 @@ export const useTimer = ({
     if (isTimeOver) {
       reset();
     }
+
     setIsRunning(true);
   }, [reset, isTimeOver]);
 
@@ -79,5 +62,5 @@ export const useTimer = ({
     };
   }, [isRunning, step, timerType, interval]);
 
-  return { reset, start, pause, time, isRunning };
+  return { isRunning, pause, reset, start, time };
 };

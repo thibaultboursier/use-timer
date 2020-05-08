@@ -66,7 +66,7 @@ export const useTimer = ({
           timerType === 'DECREMENTAL' ? time - step : time + step
         );
       }, interval);
-    } else if (!isRunning) {
+    } else {
       if (intervalId) clearInterval(intervalId);
     }
     return () => {

@@ -29,20 +29,20 @@ export const useTimer = ({
 }: Partial<IConfig> = {}): IValues => {
   const [time, setTime] = useState(initialTime);
   const [isRunning, setIsRunning] = useState(false);
-  const [isCountFinished, setIsCountFinished] = useState(false);
+  const [isTimeOver, setIsTimeOver] = useState(false);
 
   const reset = useCallback(() => {
     setIsRunning(false);
-    setIsCountFinished(false);
+    setIsTimeOver(false);
     setTime(initialTime);
   }, [initialTime]);
 
   const start = useCallback(() => {
-    if (isCountFinished) {
+    if (isTimeOver) {
       reset();
     }
     setIsRunning(true);
-  }, [reset, isCountFinished]);
+  }, [reset, isTimeOver]);
 
   const pause = useCallback(() => {
     setIsRunning(false);
@@ -51,7 +51,7 @@ export const useTimer = ({
   useEffect(() => {
     if (isRunning && time === endTime) {
       setIsRunning(false);
-      setIsCountFinished(true);
+      setIsTimeOver(true);
       if (typeof onTimeOver === 'function') {
         onTimeOver();
       }

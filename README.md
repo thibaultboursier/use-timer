@@ -25,7 +25,7 @@ Try demo here: [https://stackblitz.com/edit/use-timer](https://stackblitz.com/ed
 
 ### Basic timer
 
-```javascript
+```tsx
 import React from 'react';
 import { useTimer } from 'use-timer';
 
@@ -48,7 +48,7 @@ const App = () => {
 
 ### Decremental timer
 
-```javascript
+```tsx
 const { time, start, pause, reset, isRunning } = useTimer({
   initialTime: 100,
   timerType: 'DECREMENTAL',
@@ -57,10 +57,36 @@ const { time, start, pause, reset, isRunning } = useTimer({
 
 ### Timer with end time
 
-```javascript
+```tsx
 const { time, start, pause, reset, isRunning } = useTimer({
   endTime: 30,
   initialTime: 10,
+});
+```
+
+## Callbacks
+
+Some callback functions can be provided.
+
+### When time is over
+
+```tsx
+const { time, start, pause, reset, isRunning } = useTimer({
+  endTime,
+  onTimeOver: () => {
+    console.log('Time is over');
+  },
+});
+```
+
+### When time is updated
+
+```tsx
+const { time, start, pause, reset, isRunning } = useTimer({
+  endTime,
+  onTimeUpdate: time => {
+    console.log('Time is updated', time);
+  },
 });
 ```
 

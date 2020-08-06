@@ -485,4 +485,39 @@ describe('State and callbacks', () => {
     // Then
     expect(onTimeOver).toHaveBeenCalled();
   });
+
+  it('should call callback function when time is updated', () => {
+    // Given
+    const onTimeUpdate = jest.fn();
+    const Component = () => {
+      const { start } = useTimer({
+        endTime: 10,
+        initialTime: 0,
+        onTimeUpdate,
+      });
+
+      return (
+        <div>
+          <button id="start" onClick={start}>
+            Start
+          </button>
+        </div>
+      );
+    };
+
+    const wrapper = Enzyme.mount(<Component />);
+    const startButton = wrapper.find('#start');
+
+    // When
+    startButton.simulate('click');
+
+    act(() => {
+      jest.advanceTimersByTime(10000);
+    });
+
+    // Then
+    expect(onTimeUpdate).toHaveBeenCalledTimes(11);
+    expect(onTimeUpdate).toHaveBeenNthCalledWith(5, 4);
+    expect(onTimeUpdate).toHaveBeenLastCalledWith(10);
+  });
 });

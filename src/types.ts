@@ -5,6 +5,7 @@ export type Config = {
   initialTime: number;
   interval: number;
   onTimeOver?: () => void;
+  onTimeUpdate?: (time: number) => void;
   step: number;
   timerType: TimerType;
 };

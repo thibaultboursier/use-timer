@@ -8,6 +8,7 @@ export const useTimer = ({
   timerType = 'INCREMENTAL',
   endTime,
   onTimeOver,
+  onTimeUpdate,
 }: Partial<Config> = {}): ReturnValue => {
   const [time, setTime] = useState(initialTime);
   const [isRunning, setIsRunning] = useState(false);
@@ -32,6 +33,12 @@ export const useTimer = ({
   }, []);
 
   useEffect(() => {
+    if (typeof onTimeUpdate === 'function') {
+      onTimeUpdate(time);
+    }
+  }, [time]);
+
+  useEffect(() => {
     if (isRunning && time === endTime) {
       setIsRunning(false);
       setIsTimeOver(true);
@@ -47,7 +54,7 @@ export const useTimer = ({
 
     if (isRunning) {
       intervalId = setInterval(() => {
-        setTime(previousTime =>
+        setTime((previousTime) =>
           timerType === 'DECREMENTAL'
             ? previousTime - step
             : previousTime + step

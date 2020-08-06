@@ -11,7 +11,7 @@ Read about [Hooks](https://reactjs.org/docs/hooks-intro.html) feature.
 npm i use-timer
 ```
 
-For installation with [Yarn](https://yarnpkg.com/):
+With [Yarn](https://yarnpkg.com/):
 
 ```
 yarn add use-timer

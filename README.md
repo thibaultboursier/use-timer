@@ -8,7 +8,13 @@ Read about [Hooks](https://reactjs.org/docs/hooks-intro.html) feature.
 ## Installation
 
 ```
-npm i use-timer --save
+npm i use-timer
+```
+
+For installation with [Yarn](https://yarnpkg.com/):
+
+```
+yarn add use-timer
 ```
 
 ## Examples

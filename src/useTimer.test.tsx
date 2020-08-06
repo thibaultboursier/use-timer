@@ -1,8 +1,8 @@
 import 'jsdom-global/register';
-import Enzyme from 'enzyme';
 import React from 'react';
 import { useTimer } from './useTimer';
 import { act } from 'react-dom/test-utils';
+import { render, fireEvent } from '@testing-library/react';
 
 jest.useFakeTimers();
 
@@ -15,24 +15,22 @@ describe('Start', () => {
       return (
         <div>
           <button onClick={start}>Start</button>
-          <p>{time}</p>
+          <p data-testid="time">{time}</p>
         </div>
       );
     };
 
-    const wrapper = Enzyme.mount(<Component />);
-    const button = wrapper.find('button');
-    const time = wrapper.find('p');
+    const { getByRole, getByTestId } = render(<Component />);
 
     // When
-    button.simulate('click');
+    fireEvent.click(getByRole('button'));
 
     act(() => {
       jest.advanceTimersByTime(5000);
     });
 
     // Then
-    expect(time.text()).toBe('5');
+    expect(getByTestId('time').textContent).toBe('5');
   });
 
   it('should start timer with an initial time of 10', () => {
@@ -45,24 +43,22 @@ describe('Start', () => {
       return (
         <div>
           <button onClick={start}>Start</button>
-          <p>{time}</p>
+          <p data-testid="time">{time}</p>
         </div>
       );
     };
 
-    const wrapper = Enzyme.mount(<Component />);
-    const button = wrapper.find('button');
-    const time = wrapper.find('p');
+    const { getByRole, getByTestId } = render(<Component />);
 
     // When
-    button.simulate('click');
+    fireEvent.click(getByRole('button'));
 
     act(() => {
       jest.advanceTimersByTime(5000);
     });
 
     // Then
-    expect(time.text()).toBe('15');
+    expect(getByTestId('time').textContent).toBe('15');
   });
 
   it('should start decremental timer with an initial time of 100', () => {
@@ -76,24 +72,22 @@ describe('Start', () => {
       return (
         <div>
           <button onClick={start}>Start</button>
-          <p>{time}</p>
+          <p data-testid="time">{time}</p>
         </div>
       );
     };
 
-    const wrapper = Enzyme.mount(<Component />);
-    const button = wrapper.find('button');
-    const time = wrapper.find('p');
+    const { getByRole, getByTestId } = render(<Component />);
 
     // When
-    button.simulate('click');
+    fireEvent.click(getByRole('button'));
 
     act(() => {
       jest.advanceTimersByTime(20000);
     });
 
     // Then
-    expect(time.text()).toBe('80');
+    expect(getByTestId('time').textContent).toBe('80');
   });
 
   it('should update time with an interval of 2000 milliseconds', () => {
@@ -106,24 +100,22 @@ describe('Start', () => {
       return (
         <div>
           <button onClick={start}>Start</button>
-          <p>{time}</p>
+          <p data-testid="time">{time}</p>
         </div>
       );
     };
 
-    const wrapper = Enzyme.mount(<Component />);
-    const button = wrapper.find('button');
-    const time = wrapper.find('p');
+    const { getByRole, getByTestId } = render(<Component />);
 
     // When
-    button.simulate('click');
+    fireEvent.click(getByRole('button'));
 
     act(() => {
       jest.advanceTimersByTime(10000);
     });
 
     // Then
-    expect(time.text()).toBe('5');
+    expect(getByTestId('time').textContent).toBe('5');
   });
 });
 
@@ -139,24 +131,22 @@ describe('Stop', () => {
       return (
         <div>
           <button onClick={start}>Start</button>
-          <p>{time}</p>
+          <p data-testid="time">{time}</p>
         </div>
       );
     };
 
-    const wrapper = Enzyme.mount(<Component />);
-    const button = wrapper.find('button');
-    const time = wrapper.find('p');
+    const { getByRole, getByTestId } = render(<Component />);
 
     // When
-    button.simulate('click');
+    fireEvent.click(getByRole('button'));
 
     act(() => {
       jest.advanceTimersByTime(40000);
     });
 
     // Then
-    expect(time.text()).toBe('25');
+    expect(getByTestId('time').textContent).toBe('25');
   });
 
   it('should stop decremental timer when time is over', () => {
@@ -171,24 +161,22 @@ describe('Stop', () => {
       return (
         <div>
           <button onClick={start}>Start</button>
-          <p>{time}</p>
+          <p data-testid="time">{time}</p>
         </div>
       );
     };
 
-    const wrapper = Enzyme.mount(<Component />);
-    const button = wrapper.find('button');
-    const time = wrapper.find('p');
+    const { getByRole, getByTestId } = render(<Component />);
 
     // When
-    button.simulate('click');
+    fireEvent.click(getByRole('button'));
 
     act(() => {
       jest.advanceTimersByTime(30000);
     });
 
     // Then
-    expect(time.text()).toBe('10');
+    expect(getByTestId('time').textContent).toBe('10');
   });
 });
 
@@ -200,37 +188,34 @@ describe('Pause', () => {
 
       return (
         <div>
-          <button id="start" onClick={start}>
+          <button data-testid="start" onClick={start}>
             Start
           </button>
-          <button id="pause" onClick={pause}>
+          <button data-testid="pause" onClick={pause}>
             Start
           </button>
-          <p>{time}</p>
+          <p data-testid="time">{time}</p>
         </div>
       );
     };
 
-    const wrapper = Enzyme.mount(<Component />);
-    const startButton = wrapper.find('#start');
-    const pauseButton = wrapper.find('#pause');
-    const time = wrapper.find('p');
+    const { getByTestId } = render(<Component />);
 
     // When
-    startButton.simulate('click');
+    fireEvent.click(getByTestId('start'));
 
     act(() => {
       jest.advanceTimersByTime(5000);
     });
 
-    pauseButton.simulate('click');
+    fireEvent.click(getByTestId('pause'));
 
     act(() => {
       jest.advanceTimersByTime(5000);
     });
 
     // Then
-    expect(time.text()).toBe('5');
+    expect(getByTestId('time').textContent).toBe('5');
   });
 
   it('should pause timer with an end time', () => {
@@ -242,45 +227,45 @@ describe('Pause', () => {
 
       return (
         <div>
-          <button id="start" onClick={start}>
+          <button data-testid="start" onClick={start}>
             Start
           </button>
-          <button id="pause" onClick={pause}>
+          <button data-testid="pause" onClick={pause}>
             Start
           </button>
-          <p>{time}</p>
+          <p data-testid="time">{time}</p>
         </div>
       );
     };
 
-    const wrapper = Enzyme.mount(<Component />);
-    const startButton = wrapper.find('#start');
-    const pauseButton = wrapper.find('#pause');
-    const time = wrapper.find('p');
+    const { getByTestId } = render(<Component />);
+    const startButton = getByTestId('start');
+    const pauseButton = getByTestId('pause');
+    const time = getByTestId('time');
 
     // When
-    startButton.simulate('click');
+    fireEvent.click(startButton);
 
     act(() => {
       jest.advanceTimersByTime(3000);
     });
 
-    pauseButton.simulate('click');
+    fireEvent.click(pauseButton);
 
     act(() => {
       jest.advanceTimersByTime(5000);
     });
 
-    startButton.simulate('click');
+    fireEvent.click(startButton);
 
     // Then
-    expect(time.text()).toBe('3');
+    expect(time.textContent).toBe('3');
 
     act(() => {
       jest.advanceTimersByTime(3000);
     });
 
-    expect(time.text()).toBe('5');
+    expect(time.textContent).toBe('5');
   });
 });
 
@@ -292,33 +277,33 @@ describe('Reset', () => {
 
       return (
         <div>
-          <button id="start" onClick={start}>
+          <button data-testid="start" onClick={start}>
             Start
           </button>
-          <button id="reset" onClick={reset}>
+          <button data-testid="reset" onClick={reset}>
             Reset
           </button>
-          <p>{time}</p>
+          <p data-testid="time">{time}</p>
         </div>
       );
     };
 
-    const wrapper = Enzyme.mount(<Component />);
-    const startButton = wrapper.find('#start');
-    const resetButton = wrapper.find('#reset');
-    const time = wrapper.find('p');
+    const { getByTestId } = render(<Component />);
+    const startButton = getByTestId('start');
+    const resetButton = getByTestId('reset');
+    const time = getByTestId('time');
 
     // When
-    startButton.simulate('click');
+    fireEvent.click(startButton);
 
     act(() => {
       jest.advanceTimersByTime(5000);
     });
 
-    resetButton.simulate('click');
+    fireEvent.click(resetButton);
 
     // Then
-    expect(time.text()).toBe('0');
+    expect(time.textContent).toBe('0');
   });
 
   it('should reset timer to default initial time after restart', () => {
@@ -330,33 +315,29 @@ describe('Reset', () => {
 
       return (
         <div>
-          <button id="start" onClick={start}>
-            Start
-          </button>
-          <p>{time}</p>
+          <button onClick={start}>Start</button>
+          <p data-testid="time">{time}</p>
         </div>
       );
     };
 
-    const wrapper = Enzyme.mount(<Component />);
-    const startButton = wrapper.find('#start');
-    const time = wrapper.find('p');
+    const { getByRole, getByTestId } = render(<Component />);
 
     // When
-    startButton.simulate('click');
+    fireEvent.click(getByRole('button'));
 
     act(() => {
       jest.advanceTimersByTime(10000);
     });
 
-    startButton.simulate('click');
+    fireEvent.click(getByRole('button'));
 
     act(() => {
       jest.advanceTimersByTime(5000);
     });
 
     // Then
-    expect(time.text()).toBe('5');
+    expect(getByTestId('time').textContent).toBe('5');
   });
 
   it('should reset timer to initial time of 20', () => {
@@ -368,33 +349,30 @@ describe('Reset', () => {
 
       return (
         <div>
-          <button id="start" onClick={start}>
+          <button data-testid="start" onClick={start}>
             Start
           </button>
-          <button id="reset" onClick={reset}>
+          <button data-testid="reset" onClick={reset}>
             Reset
           </button>
-          <p>{time}</p>
+          <p data-testid="time">{time}</p>
         </div>
       );
     };
 
-    const wrapper = Enzyme.mount(<Component />);
-    const startButton = wrapper.find('#start');
-    const resetButton = wrapper.find('#reset');
-    const time = wrapper.find('p');
+    const { getByTestId } = render(<Component />);
 
     // When
-    startButton.simulate('click');
+    fireEvent.click(getByTestId('start'));
 
     act(() => {
       jest.advanceTimersByTime(5000);
     });
 
-    resetButton.simulate('click');
+    fireEvent.click(getByTestId('reset'));
 
     // Then
-    expect(time.text()).toBe('20');
+    expect(getByTestId('time').textContent).toBe('20');
   });
 });
 
@@ -408,49 +386,49 @@ describe('State and callbacks', () => {
 
       return (
         <div>
-          <button id="start" onClick={start}>
+          <button data-testid="start" onClick={start}>
             Start
           </button>
-          <button id="pause" onClick={pause}>
+          <button data-testid="pause" onClick={pause}>
             Pause
           </button>
-          <button id="reset" onClick={reset}>
+          <button data-testid="reset" onClick={reset}>
             Reset
           </button>
-          <p>{isRunning ? 'Running' : 'Not running'}</p>
+          <p data-testid="status">{isRunning ? 'Running' : 'Not running'}</p>
         </div>
       );
     };
 
-    const wrapper = Enzyme.mount(<Component />);
-    const startButton = wrapper.find('#start');
-    const pauseButton = wrapper.find('#pause');
-    const resetButton = wrapper.find('#reset');
-    const statusBlock = wrapper.find('p');
+    const { getByTestId } = render(<Component />);
+    const startButton = getByTestId('start');
+    const pauseButton = getByTestId('pause');
+    const resetButton = getByTestId('reset');
+    const statusBlock = getByTestId('status');
 
     // When
-    startButton.simulate('click');
+    fireEvent.click(startButton);
 
     // Then
-    expect(statusBlock.text()).toBe('Running');
+    expect(statusBlock.textContent).toBe('Running');
 
     // When
-    pauseButton.simulate('click');
+    fireEvent.click(pauseButton);
 
     // Expect
-    expect(statusBlock.text()).toBe('Not running');
+    expect(statusBlock.textContent).toBe('Not running');
 
     // When
-    startButton.simulate('click');
+    fireEvent.click(startButton);
 
     // Expect
-    expect(statusBlock.text()).toBe('Running');
+    expect(statusBlock.textContent).toBe('Running');
 
     // When
-    resetButton.simulate('click');
+    fireEvent.click(resetButton);
 
     // Expect
-    expect(statusBlock.text()).toBe('Not running');
+    expect(statusBlock.textContent).toBe('Not running');
   });
 
   it('should call callback function when time is over', () => {
@@ -465,18 +443,15 @@ describe('State and callbacks', () => {
 
       return (
         <div>
-          <button id="start" onClick={start}>
-            Start
-          </button>
+          <button onClick={start}>Start</button>
         </div>
       );
     };
 
-    const wrapper = Enzyme.mount(<Component />);
-    const startButton = wrapper.find('#start');
+    const { getByRole } = render(<Component />);
 
     // When
-    startButton.simulate('click');
+    fireEvent.click(getByRole('button'));
 
     act(() => {
       jest.advanceTimersByTime(30000);
@@ -498,18 +473,15 @@ describe('State and callbacks', () => {
 
       return (
         <div>
-          <button id="start" onClick={start}>
-            Start
-          </button>
+          <button onClick={start}>Start</button>
         </div>
       );
     };
 
-    const wrapper = Enzyme.mount(<Component />);
-    const startButton = wrapper.find('#start');
+    const { getByRole } = render(<Component />);
 
     // When
-    startButton.simulate('click');
+    fireEvent.click(getByRole('button'));
 
     act(() => {
       jest.advanceTimersByTime(10000);

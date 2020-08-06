@@ -1,4 +1,4 @@
-# use-timer
+# use-timer ⏱️
 
 [![npm Version](https://img.shields.io/npm/v/use-timer.svg)](https://www.npmjs.com/package/use-timer) [![License](https://img.shields.io/npm/l/use-timer.svg)](https://www.npmjs.com/package/use-timer) [![Linux Build Status](https://travis-ci.com/thibaultboursier/use-timer.svg?branch=master)](https://travis-ci.com/thibaultboursier/use-timer) [![Bundle size](https://badgen.net/bundlephobia/min/use-timer?label=size)](https://bundlephobia.com/result?p=use-timer) [![Bundle size](https://badgen.net/bundlephobia/minzip/use-timer?label=gzip%20size)](https://bundlephobia.com/result?p=use-timer)
 
@@ -19,7 +19,7 @@ yarn add use-timer
 
 ## Examples
 
-Try demo here: [https://stackblitz.com/edit/use-timer](https://stackblitz.com/edit/use-timer).
+🚀 Try demo here: [https://stackblitz.com/edit/use-timer](https://stackblitz.com/edit/use-timer).
 
 ## Usage
 

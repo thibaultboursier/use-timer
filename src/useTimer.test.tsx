@@ -415,19 +415,19 @@ describe('State and callbacks', () => {
     // When
     fireEvent.click(pauseButton);
 
-    // Expect
+    // Then
     expect(statusBlock.textContent).toBe('Not running');
 
     // When
     fireEvent.click(startButton);
 
-    // Expect
+    // Then
     expect(statusBlock.textContent).toBe('Running');
 
     // When
     fireEvent.click(resetButton);
 
-    // Expect
+    // Then
     expect(statusBlock.textContent).toBe('Not running');
   });
 

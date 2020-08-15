@@ -35,12 +35,12 @@
     "jsdom": "16.4.0",
     "jsdom-global": "3.0.2",
     "prettier": "2.0.5",
-    "react": "16.12.0",
-    "react-dom": "16.12.0",
-    "ts-jest": "24.2.0",
-    "tslint": "6.1.2",
-    "tslint-config-prettier": "1.18.0",
-    "typescript": "3.7.3"
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "ts-jest": "^26.0.0",
+    "tslint": "^6.1.2",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.7.3"
   },
   "peerDependencies": {
     "react": ">=16.8.0",

@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 import { Config, ReturnValue } from './types';
+import Reducer from './reducer';
 
 export const useTimer = ({
   initialTime = 0,
@@ -10,14 +11,16 @@ export const useTimer = ({
   onTimeOver,
   onTimeUpdate,
 }: Partial<Config> = {}): ReturnValue => {
-  const [time, setTime] = useState(initialTime);
-  const [isRunning, setIsRunning] = useState(false);
-  const [isTimeOver, setIsTimeOver] = useState(false);
+  const [state, dispatch] = useReducer(Reducer, {
+    isRunning: false,
+    isTimeOver: false,
+    time: initialTime,
+  });
+
+  const { isRunning, isTimeOver, time } = state;
 
   const reset = useCallback(() => {
-    setIsRunning(false);
-    setIsTimeOver(false);
-    setTime(initialTime);
+    dispatch({ type: 'reset', payload: { initialTime } });
   }, [initialTime]);
 
   const start = useCallback(() => {
@@ -25,11 +28,11 @@ export const useTimer = ({
       reset();
     }
 
-    setIsRunning(true);
+    dispatch({ type: 'start' });
   }, [reset, isTimeOver]);
 
   const pause = useCallback(() => {
-    setIsRunning(false);
+    dispatch({ type: 'pause' });
   }, []);
 
   useEffect(() => {
@@ -40,8 +43,7 @@ export const useTimer = ({
 
   useEffect(() => {
     if (isRunning && time === endTime) {
-      setIsRunning(false);
-      setIsTimeOver(true);
+      dispatch({ type: 'stop' });
 
       if (typeof onTimeOver === 'function') {
         onTimeOver();
@@ -54,11 +56,12 @@ export const useTimer = ({
 
     if (isRunning) {
       intervalId = setInterval(() => {
-        setTime((previousTime) =>
-          timerType === 'DECREMENTAL'
-            ? previousTime - step
-            : previousTime + step
-        );
+        dispatch({
+          type: 'set',
+          payload: {
+            newTime: timerType === 'DECREMENTAL' ? time - step : time + step,
+          },
+        });
       }, interval);
     } else if (intervalId) {
       clearInterval(intervalId);
@@ -69,7 +72,7 @@ export const useTimer = ({
         clearInterval(intervalId);
       }
     };
-  }, [isRunning, step, timerType, interval]);
+  }, [isRunning, step, timerType, interval, time]);
 
   return { isRunning, pause, reset, start, time };
 };

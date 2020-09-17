@@ -376,6 +376,119 @@ describe('Reset', () => {
   });
 });
 
+describe('Advance time', () => {
+  it('should advance time and add 10 to time value', () => {
+    // Given
+    const Component = () => {
+      const { advanceTime, time, start } = useTimer({
+        initialTime: 0,
+      });
+
+      return (
+        <div>
+          <button data-testid="start" onClick={start}>
+            Start
+          </button>
+          <button data-testid="advanceTime" onClick={() => advanceTime(10)}>
+            Advance time
+          </button>
+          <p data-testid="time">{time}</p>
+        </div>
+      );
+    };
+
+    const { getByTestId } = render(<Component />);
+
+    // When
+    fireEvent.click(getByTestId('start'));
+
+    act(() => {
+      jest.advanceTimersByTime(5000);
+    });
+
+    fireEvent.click(getByTestId('advanceTime'));
+
+    // Then
+    expect(getByTestId('time').textContent).toBe('15');
+  });
+
+  it('should advance time and remove 5 to time value when timer type is decremental', () => {
+    // Given
+    const Component = () => {
+      const { advanceTime, time, start } = useTimer({
+        initialTime: 30,
+        timerType: 'DECREMENTAL',
+      });
+
+      return (
+        <div>
+          <button data-testid="start" onClick={start}>
+            Start
+          </button>
+          <button data-testid="advanceTime" onClick={() => advanceTime(5)}>
+            Advance time
+          </button>
+          <p data-testid="time">{time}</p>
+        </div>
+      );
+    };
+
+    const { getByTestId } = render(<Component />);
+
+    // When
+    fireEvent.click(getByTestId('start'));
+
+    act(() => {
+      jest.advanceTimersByTime(10000);
+    });
+
+    // When
+    fireEvent.click(getByTestId('advanceTime'));
+
+    // Then
+    expect(getByTestId('time').textContent).toBe('15');
+  });
+
+  it('should continue to update time after it has been advanced', () => {
+    // Given
+    const Component = () => {
+      const { advanceTime, time, start } = useTimer({
+        initialTime: 0,
+      });
+
+      return (
+        <div>
+          <button data-testid="start" onClick={start}>
+            Start
+          </button>
+          <button data-testid="advanceTime" onClick={() => advanceTime(50)}>
+            Advance time
+          </button>
+          <p data-testid="time">{time}</p>
+        </div>
+      );
+    };
+
+    const { getByTestId } = render(<Component />);
+
+    // When
+    fireEvent.click(getByTestId('start'));
+
+    act(() => {
+      jest.advanceTimersByTime(10000);
+    });
+
+    fireEvent.click(getByTestId('advanceTime'));
+
+    act(() => {
+      jest.advanceTimersByTime(20000);
+    });
+
+    // Then
+    expect(getByTestId('time').textContent).toBe('80');
+  });
+});
+
 describe('State and callbacks', () => {
   it('should display "Running" text when timer is running', () => {
     // Given

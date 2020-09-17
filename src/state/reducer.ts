@@ -1,8 +1,20 @@
+import { act } from 'react-dom/test-utils';
 import { State } from '../types';
 import { TimerActionsType } from './actions';
 
 function reducer(state: State, action: TimerActionsType) {
   switch (action.type) {
+    case 'advanceTime': {
+      const { timeToAdd } = action.payload;
+
+      return {
+        ...state,
+        time:
+          state.timerType === 'DECREMENTAL'
+            ? state.time - timeToAdd
+            : state.time + timeToAdd,
+      };
+    }
     case 'pause': {
       return {
         ...state,

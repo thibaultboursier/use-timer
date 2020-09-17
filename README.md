@@ -1,4 +1,4 @@
-# use-timer ⏱️
+# ⏱️ use-timer
 
 [![npm Version](https://img.shields.io/npm/v/use-timer.svg)](https://www.npmjs.com/package/use-timer) [![License](https://img.shields.io/npm/l/use-timer.svg)](https://www.npmjs.com/package/use-timer) [![Linux Build Status](https://travis-ci.com/thibaultboursier/use-timer.svg?branch=master)](https://travis-ci.com/thibaultboursier/use-timer) [![Bundle size](https://badgen.net/bundlephobia/min/use-timer?label=size)](https://bundlephobia.com/result?p=use-timer) [![Bundle size](https://badgen.net/bundlephobia/minzip/use-timer?label=gzip%20size)](https://bundlephobia.com/result?p=use-timer)
 
@@ -64,6 +64,19 @@ const { time, start, pause, reset, isRunning } = useTimer({
 });
 ```
 
+### Advance time
+
+```tsx
+const { time, start, advanceTime } = useTimer({
+  initialTime: 20,
+});
+
+start();
+advanceTime(10);
+
+console.log(time); // 30
+```
+
 ## Callbacks
 
 Some callback functions can be provided.
@@ -84,7 +97,7 @@ const { time, start, pause, reset, isRunning } = useTimer({
 ```tsx
 const { time, start, pause, reset, isRunning } = useTimer({
   endTime,
-  onTimeUpdate: time => {
+  onTimeUpdate: (time) => {
     console.log('Time is updated', time);
   },
 });

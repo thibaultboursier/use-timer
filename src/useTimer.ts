@@ -15,9 +15,18 @@ export const useTimer = ({
     isRunning: false,
     isTimeOver: false,
     time: initialTime,
+    timerType,
   });
 
   const { isRunning, isTimeOver, time } = state;
+
+  const advanceTime = useCallback((timeToAdd) => {
+    dispatch({ type: 'advanceTime', payload: { timeToAdd } });
+  }, []);
+
+  const pause = useCallback(() => {
+    dispatch({ type: 'pause' });
+  }, []);
 
   const reset = useCallback(() => {
     dispatch({ type: 'reset', payload: { initialTime } });
@@ -30,10 +39,6 @@ export const useTimer = ({
 
     dispatch({ type: 'start' });
   }, [reset, isTimeOver]);
-
-  const pause = useCallback(() => {
-    dispatch({ type: 'pause' });
-  }, []);
 
   useEffect(() => {
     if (typeof onTimeUpdate === 'function') {
@@ -74,5 +79,5 @@ export const useTimer = ({
     };
   }, [isRunning, step, timerType, interval, time]);
 
-  return { isRunning, pause, reset, start, time };
+  return { advanceTime, isRunning, pause, reset, start, time };
 };

@@ -11,6 +11,7 @@ export type Config = {
 };
 
 export type ReturnValue = {
+  advanceTime: (timeToAdd: number) => void;
   isRunning: boolean;
   pause: () => void;
   reset: () => void;
@@ -22,4 +23,5 @@ export interface State {
   isRunning: boolean;
   isTimeOver: boolean;
   time: number;
+  timerType: TimerType;
 }

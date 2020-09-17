@@ -1,6 +1,10 @@
 {
-  "extends": [
-    "config:base"
-  ],
-  "travis": { "enabled": true }
+  "extends": ["config:base"],
+  "travis": { "enabled": true },
+  "packageRules": [
+    {
+      "updateTypes": ["minor", "patch"],
+      "automerge": true
+    }
+  ]
 }

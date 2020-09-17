@@ -406,6 +406,7 @@ describe('Advance time', () => {
       jest.advanceTimersByTime(5000);
     });
 
+    // When
     fireEvent.click(getByTestId('advanceTime'));
 
     // Then
@@ -478,6 +479,7 @@ describe('Advance time', () => {
       jest.advanceTimersByTime(10000);
     });
 
+    // When
     fireEvent.click(getByTestId('advanceTime'));
 
     act(() => {

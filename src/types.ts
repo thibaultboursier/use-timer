@@ -19,7 +19,7 @@ export type ReturnValue = {
 };
 
 export interface State {
-  time: number;
   isRunning: boolean;
   isTimeOver: boolean;
+  time: number;
 }

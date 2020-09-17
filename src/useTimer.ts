@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useReducer } from 'react';
 import { Config, ReturnValue } from './types';
-import Reducer from './reducer';
+import reducer from './state/reducer';
 
 export const useTimer = ({
   initialTime = 0,
@@ -11,7 +11,7 @@ export const useTimer = ({
   onTimeOver,
   onTimeUpdate,
 }: Partial<Config> = {}): ReturnValue => {
-  const [state, dispatch] = useReducer(Reducer, {
+  const [state, dispatch] = useReducer(reducer, {
     isRunning: false,
     isTimeOver: false,
     time: initialTime,

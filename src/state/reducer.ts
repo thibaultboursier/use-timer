@@ -1,7 +1,7 @@
+import { State } from '../types';
 import { TimerActionsType } from './actions';
-import { State } from './types';
 
-function Reducer(state: State, action: TimerActionsType) {
+function reducer(state: State, action: TimerActionsType) {
   switch (action.type) {
     case 'pause': {
       return {
@@ -23,6 +23,12 @@ function Reducer(state: State, action: TimerActionsType) {
         time: action.payload.newTime,
       };
     }
+    case 'start': {
+      return {
+        ...state,
+        isRunning: true,
+      };
+    }
     case 'stop': {
       return {
         ...state,
@@ -30,15 +36,9 @@ function Reducer(state: State, action: TimerActionsType) {
         isTimeOver: true,
       };
     }
-    case 'start': {
-      return {
-        ...state,
-        isRunning: true,
-      };
-    }
     default:
       return state;
   }
 }
 
-export default Reducer;
+export default reducer;

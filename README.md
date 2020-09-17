@@ -66,6 +66,8 @@ const { time, start, pause, reset, isRunning } = useTimer({
 
 ### Advance time
 
+This works for all types of timer (incremental and decremental).
+
 ```tsx
 const { time, start, advanceTime } = useTimer({
   initialTime: 20,

@@ -17,3 +17,9 @@ export type ReturnValue = {
   start: () => void;
   time: number;
 };
+
+export interface State {
+  time: number;
+  isRunning: boolean;
+  isTimeOver: boolean;
+}

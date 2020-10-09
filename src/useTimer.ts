@@ -12,13 +12,13 @@ export const useTimer = ({
   onTimeUpdate,
 }: Partial<Config> = {}): ReturnValue => {
   const [state, dispatch] = useReducer(reducer, {
-    isRunning: false,
+    status: 'STOPPED',
     isTimeOver: false,
     time: initialTime,
     timerType,
   });
 
-  const { isRunning, isTimeOver, time } = state;
+  const { status, isTimeOver, time } = state;
 
   const advanceTime = useCallback((timeToAdd) => {
     dispatch({ type: 'advanceTime', payload: { timeToAdd } });
@@ -47,19 +47,19 @@ export const useTimer = ({
   }, [time]);
 
   useEffect(() => {
-    if (isRunning && time === endTime) {
+    if ((status === 'RUNNING' || status === 'PAUSED') && time === endTime) {
       dispatch({ type: 'stop' });
 
       if (typeof onTimeOver === 'function') {
         onTimeOver();
       }
     }
-  }, [endTime, onTimeOver, time, isRunning]);
+  }, [endTime, onTimeOver, time, status]);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout | null = null;
 
-    if (isRunning) {
+    if (status === 'RUNNING') {
       intervalId = setInterval(() => {
         dispatch({
           type: 'set',
@@ -77,7 +77,7 @@ export const useTimer = ({
         clearInterval(intervalId);
       }
     };
-  }, [isRunning, step, timerType, interval, time]);
+  }, [status, step, timerType, interval, time]);
 
-  return { advanceTime, isRunning, pause, reset, start, time };
+  return { advanceTime, status, pause, reset, start, time };
 };

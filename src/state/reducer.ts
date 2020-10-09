@@ -1,4 +1,3 @@
-import { act } from 'react-dom/test-utils';
 import { State } from '../types';
 import { TimerActionsType } from './actions';
 

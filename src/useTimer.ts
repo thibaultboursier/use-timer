@@ -47,7 +47,7 @@ export const useTimer = ({
   }, [time]);
 
   useEffect(() => {
-    if ((status === 'RUNNING' || status === 'PAUSED') && time === endTime) {
+    if (status !== 'STOPPED' && time === endTime) {
       dispatch({ type: 'stop' });
 
       if (typeof onTimeOver === 'function') {

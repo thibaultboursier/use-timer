@@ -14,10 +14,10 @@ export type Config = {
 
 export type ReturnValue = {
   advanceTime: (timeToAdd: number) => void;
-  status: Status;
   pause: () => void;
   reset: () => void;
   start: () => void;
+  status: Status;
   time: number;
 };
 

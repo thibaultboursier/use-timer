@@ -492,7 +492,7 @@ describe('Advance time', () => {
 });
 
 describe('State and callbacks', () => {
-  it('should display "Running" text when timer is running', () => {
+  it('should display "RUNNING" text when timer is running', () => {
     // Given
     const Component = () => {
       const { status, start, pause, reset } = useTimer({

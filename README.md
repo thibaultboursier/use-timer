@@ -30,7 +30,7 @@ import React from 'react';
 import { useTimer } from 'use-timer';
 
 const App = () => {
-  const { time, start, pause, reset, isRunning } = useTimer();
+  const { time, start, pause, reset, status } = useTimer();
 
   return (
     <>
@@ -40,7 +40,7 @@ const App = () => {
         <button onClick={reset}>Reset</button>
       </div>
       <p>Elapsed time: {time}</p>
-      {isRunning && <p>Running...</p>}
+      {status === 'RUNNING' && <p>Running...</p>}
     </>
   );
 };
@@ -49,7 +49,7 @@ const App = () => {
 ### Decremental timer
 
 ```tsx
-const { time, start, pause, reset, isRunning } = useTimer({
+const { time, start, pause, reset, status } = useTimer({
   initialTime: 100,
   timerType: 'DECREMENTAL',
 });
@@ -58,7 +58,7 @@ const { time, start, pause, reset, isRunning } = useTimer({
 ### Timer with end time
 
 ```tsx
-const { time, start, pause, reset, isRunning } = useTimer({
+const { time, start, pause, reset, status } = useTimer({
   endTime: 30,
   initialTime: 10,
 });
@@ -86,7 +86,7 @@ Some callback functions can be provided.
 ### When time is over
 
 ```tsx
-const { time, start, pause, reset, isRunning } = useTimer({
+const { time, start, pause, reset, status } = useTimer({
   endTime,
   onTimeOver: () => {
     console.log('Time is over');
@@ -97,7 +97,7 @@ const { time, start, pause, reset, isRunning } = useTimer({
 ### When time is updated
 
 ```tsx
-const { time, start, pause, reset, isRunning } = useTimer({
+const { time, start, pause, reset, status } = useTimer({
   endTime,
   onTimeUpdate: (time) => {
     console.log('Time is updated', time);

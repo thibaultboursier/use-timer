@@ -116,5 +116,6 @@ The configuration and all its parameters are optional.
 | interval     | number   | 1000          | The interval in milliseconds                                                           |
 | onTimeOver   | function |               | Callback function that is called when time is over                                     |
 | onTimeUpdate | function |               | Callback function that is called when time is updated                                  |
-| step         | number   | 1             | the value to add to each increment / decrement                                         |
-| timerType    | string   | "INCREMENTAL" | the choice between a value that increases ("INCREMENTAL") or decreases ("DECREMENTAL") |
+| shouldAutostart         | boolean   | false             | Pass true to start timer automatically   
+| step         | number   | 1             | The value to add to each increment / decrement                                         |
+| timerType    | string   | "INCREMENTAL" | The choice between a value that increases ("INCREMENTAL") or decreases ("DECREMENTAL") |

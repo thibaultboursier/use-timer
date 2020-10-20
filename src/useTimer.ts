@@ -45,7 +45,7 @@ export const useTimer = ({
     if (shouldAutostart) {
       dispatch({ type: 'start' });
     }
-  }, []);
+  }, [shouldAutostart]);
 
   useEffect(() => {
     if (typeof onTimeUpdate === 'function') {

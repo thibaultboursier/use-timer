@@ -117,6 +117,26 @@ describe('Start', () => {
     // Then
     expect(getByTestId('time').textContent).toBe('5');
   });
+
+  it('should autostart', () => {
+    // Given
+    const Component = () => {
+      const { time } = useTimer({
+        shouldAutostart: true,
+      });
+
+      return <p data-testid="time">{time}</p>;
+    };
+
+    const { getByTestId } = render(<Component />);
+
+    act(() => {
+      jest.advanceTimersByTime(20000);
+    });
+
+    // Then
+    expect(getByTestId('time').textContent).toBe('20');
+  });
 });
 
 describe('Stop', () => {

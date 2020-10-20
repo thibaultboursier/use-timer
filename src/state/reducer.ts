@@ -1,4 +1,3 @@
-import { act } from 'react-dom/test-utils';
 import { State } from '../types';
 import { TimerActionsType } from './actions';
 
@@ -25,7 +24,6 @@ function reducer(state: State, action: TimerActionsType): State {
       return {
         ...state,
         status: 'STOPPED',
-        isTimeOver: false,
         time: action.payload.initialTime,
       };
     }
@@ -36,16 +34,18 @@ function reducer(state: State, action: TimerActionsType): State {
       };
     }
     case 'start': {
+      const { initialTime } = action.payload;
+
       return {
         ...state,
         status: 'RUNNING',
+        time: state.status === 'STOPPED' ? initialTime : state.time,
       };
     }
     case 'stop': {
       return {
         ...state,
         status: 'STOPPED',
-        isTimeOver: true,
       };
     }
     default:

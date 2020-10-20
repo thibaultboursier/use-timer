@@ -23,7 +23,6 @@ export type ReturnValue = {
 
 export interface State {
   status: Status;
-  isTimeOver: boolean;
   time: number;
   timerType: TimerType;
 }

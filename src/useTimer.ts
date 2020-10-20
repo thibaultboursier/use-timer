@@ -13,12 +13,11 @@ export const useTimer = ({
 }: Partial<Config> = {}): ReturnValue => {
   const [state, dispatch] = useReducer(reducer, {
     status: 'STOPPED',
-    isTimeOver: false,
     time: initialTime,
     timerType,
   });
 
-  const { status, isTimeOver, time } = state;
+  const { status, time } = state;
 
   const advanceTime = useCallback((timeToAdd) => {
     dispatch({ type: 'advanceTime', payload: { timeToAdd } });
@@ -33,12 +32,8 @@ export const useTimer = ({
   }, [initialTime]);
 
   const start = useCallback(() => {
-    if (isTimeOver) {
-      reset();
-    }
-
-    dispatch({ type: 'start' });
-  }, [reset, isTimeOver]);
+    dispatch({ type: 'start', payload: { initialTime } });
+  }, []);
 
   useEffect(() => {
     if (typeof onTimeUpdate === 'function') {

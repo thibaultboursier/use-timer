@@ -7,7 +7,7 @@ export const useTimer = ({
   interval = 1000,
   step = 1,
   timerType = 'INCREMENTAL',
-  endTime,
+  endTime = timerType === 'INCREMENTAL' ? null : 0,
   onTimeOver,
   onTimeUpdate,
   autostart = false,
@@ -38,9 +38,9 @@ export const useTimer = ({
 
   useEffect(() => {
     if (autostart) {
-      dispatch({ type: 'start' });
+      dispatch({ type: 'start', payload: { initialTime } });
     }
-  }, [autostart]);
+  }, [autostart, initialTime]);
 
   useEffect(() => {
     if (typeof onTimeUpdate === 'function') {

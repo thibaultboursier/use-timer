@@ -10,6 +10,7 @@ export const useTimer = ({
   endTime,
   onTimeOver,
   onTimeUpdate,
+  shouldAutostart = false,
 }: Partial<Config> = {}): ReturnValue => {
   const [state, dispatch] = useReducer(reducer, {
     status: 'STOPPED',
@@ -34,6 +35,12 @@ export const useTimer = ({
   const start = useCallback(() => {
     dispatch({ type: 'start', payload: { initialTime } });
   }, []);
+
+  useEffect(() => {
+    if (shouldAutostart) {
+      dispatch({ type: 'start' });
+    }
+  }, [shouldAutostart]);
 
   useEffect(() => {
     if (typeof onTimeUpdate === 'function') {

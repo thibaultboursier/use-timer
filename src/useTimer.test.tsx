@@ -122,7 +122,7 @@ describe('Start', () => {
     // Given
     const Component = () => {
       const { time } = useTimer({
-        shouldAutostart: true,
+        autostart: true,
       });
 
       return <p data-testid="time">{time}</p>;

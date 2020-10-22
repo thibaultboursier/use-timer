@@ -3,14 +3,14 @@ import { Config, ReturnValue } from './types';
 import reducer from './state/reducer';
 
 export const useTimer = ({
+  autostart = false,
+  endTime,
   initialTime = 0,
   interval = 1000,
-  step = 1,
-  timerType = 'INCREMENTAL',
-  endTime,
   onTimeOver,
   onTimeUpdate,
-  shouldAutostart = false,
+  step = 1,
+  timerType = 'INCREMENTAL',
 }: Partial<Config> = {}): ReturnValue => {
   const [state, dispatch] = useReducer(reducer, {
     status: 'STOPPED',
@@ -37,10 +37,10 @@ export const useTimer = ({
   }, []);
 
   useEffect(() => {
-    if (shouldAutostart) {
+    if (autostart) {
       dispatch({ type: 'start', payload: { initialTime } });
     }
-  }, [shouldAutostart]);
+  }, [autostart]);
 
   useEffect(() => {
     if (typeof onTimeUpdate === 'function') {
@@ -81,5 +81,5 @@ export const useTimer = ({
     };
   }, [status, step, timerType, interval, time]);
 
-  return { advanceTime, status, pause, reset, start, time };
+  return { advanceTime, pause, reset, start, status, time };
 };

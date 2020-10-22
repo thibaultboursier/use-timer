@@ -9,8 +9,8 @@
     "prettify": "prettier 'src/**/*.{ts,tsx}' --write",
     "test": "jest",
     "test:watch": "jest --watch",
-    "demo:dev": "parcel ./demo/index.html --out-dir demo-dist",
-    "demo:build": "parcel ./demo/index.html --out-dir demo-dist"
+    "demo:dev": "parcel ./demo/index.html --open",
+    "demo:build": "parcel build ./demo/index.html --out-dir demo-dist"
   },
   "repository": {
     "type": "git",

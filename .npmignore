@@ -1,7 +1,10 @@
 .npmignore
 
 src
-demo
 tsconfig.json
 *.test.tsx
 .travis.yml
+
+# parcel
+demo-dist/
+.cache

@@ -8,7 +8,9 @@
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "prettify": "prettier 'src/**/*.{ts,tsx}' --write",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "demo:dev": "parcel ./demo/index.html --open",
+    "demo:build": "parcel build ./demo/index.html --out-dir demo-dist"
   },
   "repository": {
     "type": "git",
@@ -34,6 +36,7 @@
     "jest": "24.9.0",
     "jsdom": "16.4.0",
     "jsdom-global": "3.0.2",
+    "parcel-bundler": "^1.12.4",
     "prettier": "2.1.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",

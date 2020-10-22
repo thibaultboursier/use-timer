@@ -1,10 +1,17 @@
-.npmignore
-
-src
-tsconfig.json
-*.test.tsx
-.travis.yml
-
-# parcel
-demo-dist/
 .cache
+coverage
+demo
+demo-dist
+src
+.gitignore
+.npmignore
+.prettierrc
+.publishrc
+.travis.yml
+jest.config.js
+renovate.json
+tsconfig.json
+tslint.json
+*.test.tsx
+*.test.js
+

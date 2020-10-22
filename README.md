@@ -17,9 +17,13 @@ With [Yarn](https://yarnpkg.com/):
 yarn add use-timer
 ```
 
-## Examples
+## Demo
 
-🚀 Try demo here: [https://stackblitz.com/edit/use-timer](https://stackblitz.com/edit/use-timer).
+[![Netlify Status](https://api.netlify.com/api/v1/badges/3be3466e-4bc9-46f1-89b0-9b09910cc20b/deploy-status)](https://app.netlify.com/sites/use-timer/deploys)
+
+🚀 Try last production version on Netlify!
+
+https://use-timer.netlify.app/
 
 ## Usage
 

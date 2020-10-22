@@ -10,7 +10,8 @@ const RESET = (initialTime: number) =>
 
 const SET = (newTime: number) => createActionType('set', { newTime });
 
-const START = () => createActionType('start');
+const START = (initialTime: number) =>
+  createActionType('start', { initialTime });
 
 const STOP = () => createActionType('stop');
 

@@ -115,11 +115,11 @@ The configuration and all its parameters are optional.
 
 | Property     | Type     | Default value | Description                                                                            |
 | ------------ | -------- | ------------- | -------------------------------------------------------------------------------------- |
+| autostart    | boolean  | false         | Pass true to start timer automatically                                                 |
 | endTime      | number   | null          | The value for which timer stops                                                        |
 | initialTime  | number   | 0             | The starting value for the timer                                                       |
 | interval     | number   | 1000          | The interval in milliseconds                                                           |
 | onTimeOver   | function |               | Callback function that is called when time is over                                     |
 | onTimeUpdate | function |               | Callback function that is called when time is updated                                  |
-| autostart    | boolean  | false         | Pass true to start timer automatically                                                 |
 | step         | number   | 1             | The value to add to each increment / decrement                                         |
 | timerType    | string   | "INCREMENTAL" | The choice between a value that increases ("INCREMENTAL") or decreases ("DECREMENTAL") |

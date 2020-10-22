@@ -8,7 +8,7 @@ export type Config = {
   interval: number;
   onTimeOver?: () => void;
   onTimeUpdate?: (time: number) => void;
-  shouldAutostart: boolean;
+  autostart: boolean;
   step: number;
   timerType: TimerType;
 };

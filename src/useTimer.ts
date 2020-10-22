@@ -38,7 +38,7 @@ export const useTimer = ({
 
   useEffect(() => {
     if (shouldAutostart) {
-      dispatch({ type: 'start' });
+      dispatch({ type: 'start', payload: { initialTime } });
     }
   }, [shouldAutostart]);
 

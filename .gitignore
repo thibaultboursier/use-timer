@@ -62,3 +62,10 @@ typings/
 
 # lib
 lib
+
+# macOS
+.DS_Store
+
+# parcel
+.cache
+demo-dist/

@@ -3,22 +3,22 @@ import { Config, ReturnValue } from './types';
 import reducer from './state/reducer';
 
 export const useTimer = ({
+  autostart = false,
+  endTime,
   initialTime = 0,
   interval = 1000,
-  step = 1,
-  timerType = 'INCREMENTAL',
-  endTime,
   onTimeOver,
   onTimeUpdate,
+  step = 1,
+  timerType = 'INCREMENTAL',
 }: Partial<Config> = {}): ReturnValue => {
   const [state, dispatch] = useReducer(reducer, {
-    isRunning: false,
-    isTimeOver: false,
+    status: 'STOPPED',
     time: initialTime,
     timerType,
   });
 
-  const { isRunning, isTimeOver, time } = state;
+  const { status, time } = state;
 
   const advanceTime = useCallback((timeToAdd) => {
     dispatch({ type: 'advanceTime', payload: { timeToAdd } });
@@ -33,12 +33,14 @@ export const useTimer = ({
   }, [initialTime]);
 
   const start = useCallback(() => {
-    if (isTimeOver) {
-      reset();
-    }
+    dispatch({ type: 'start', payload: { initialTime } });
+  }, []);
 
-    dispatch({ type: 'start' });
-  }, [reset, isTimeOver]);
+  useEffect(() => {
+    if (autostart) {
+      dispatch({ type: 'start', payload: { initialTime } });
+    }
+  }, [autostart]);
 
   useEffect(() => {
     if (typeof onTimeUpdate === 'function') {
@@ -47,19 +49,19 @@ export const useTimer = ({
   }, [time]);
 
   useEffect(() => {
-    if (isRunning && time === endTime) {
+    if (status !== 'STOPPED' && time === endTime) {
       dispatch({ type: 'stop' });
 
       if (typeof onTimeOver === 'function') {
         onTimeOver();
       }
     }
-  }, [endTime, onTimeOver, time, isRunning]);
+  }, [endTime, onTimeOver, time, status]);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout | null = null;
 
-    if (isRunning) {
+    if (status === 'RUNNING') {
       intervalId = setInterval(() => {
         dispatch({
           type: 'set',
@@ -77,7 +79,7 @@ export const useTimer = ({
         clearInterval(intervalId);
       }
     };
-  }, [isRunning, step, timerType, interval, time]);
+  }, [status, step, timerType, interval, time]);
 
-  return { advanceTime, isRunning, pause, reset, start, time };
+  return { advanceTime, pause, reset, start, status, time };
 };

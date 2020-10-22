@@ -1,8 +1,7 @@
-import { act } from 'react-dom/test-utils';
 import { State } from '../types';
 import { TimerActionsType } from './actions';
 
-function reducer(state: State, action: TimerActionsType) {
+function reducer(state: State, action: TimerActionsType): State {
   switch (action.type) {
     case 'advanceTime': {
       const { timeToAdd } = action.payload;
@@ -18,14 +17,13 @@ function reducer(state: State, action: TimerActionsType) {
     case 'pause': {
       return {
         ...state,
-        isRunning: false,
+        status: 'PAUSED',
       };
     }
     case 'reset': {
       return {
         ...state,
-        isRunning: false,
-        isTimeOver: false,
+        status: 'STOPPED',
         time: action.payload.initialTime,
       };
     }
@@ -36,16 +34,18 @@ function reducer(state: State, action: TimerActionsType) {
       };
     }
     case 'start': {
+      const { initialTime } = action.payload;
+
       return {
         ...state,
-        isRunning: true,
+        status: 'RUNNING',
+        time: state.status === 'STOPPED' ? initialTime : state.time,
       };
     }
     case 'stop': {
       return {
         ...state,
-        isRunning: false,
-        isTimeOver: true,
+        status: 'STOPPED',
       };
     }
     default:

@@ -117,6 +117,26 @@ describe('Start', () => {
     // Then
     expect(getByTestId('time').textContent).toBe('5');
   });
+
+  it('should autostart', () => {
+    // Given
+    const Component = () => {
+      const { time } = useTimer({
+        autostart: true,
+      });
+
+      return <p data-testid="time">{time}</p>;
+    };
+
+    const { getByTestId } = render(<Component />);
+
+    act(() => {
+      jest.advanceTimersByTime(20000);
+    });
+
+    // Then
+    expect(getByTestId('time').textContent).toBe('20');
+  });
 });
 
 describe('Stop', () => {
@@ -492,10 +512,10 @@ describe('Advance time', () => {
 });
 
 describe('State and callbacks', () => {
-  it('should display "Running" text when timer is running', () => {
+  it('should display "RUNNING" text when timer is running', () => {
     // Given
     const Component = () => {
-      const { isRunning, start, pause, reset } = useTimer({
+      const { status, start, pause, reset } = useTimer({
         initialTime: 20,
       });
 
@@ -510,7 +530,7 @@ describe('State and callbacks', () => {
           <button data-testid="reset" onClick={reset}>
             Reset
           </button>
-          <p data-testid="status">{isRunning ? 'Running' : 'Not running'}</p>
+          <p data-testid="status">{status}</p>
         </div>
       );
     };
@@ -525,25 +545,25 @@ describe('State and callbacks', () => {
     fireEvent.click(startButton);
 
     // Then
-    expect(statusBlock.textContent).toBe('Running');
+    expect(statusBlock.textContent).toBe('RUNNING');
 
     // When
     fireEvent.click(pauseButton);
 
     // Then
-    expect(statusBlock.textContent).toBe('Not running');
+    expect(statusBlock.textContent).toBe('PAUSED');
 
     // When
     fireEvent.click(startButton);
 
     // Then
-    expect(statusBlock.textContent).toBe('Running');
+    expect(statusBlock.textContent).toBe('RUNNING');
 
     // When
     fireEvent.click(resetButton);
 
     // Then
-    expect(statusBlock.textContent).toBe('Not running');
+    expect(statusBlock.textContent).toBe('STOPPED');
   });
 
   it('should call callback function when time is over', () => {

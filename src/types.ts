@@ -3,12 +3,12 @@ export type TimerType = 'DECREMENTAL' | 'INCREMENTAL';
 export type Status = 'RUNNING' | 'PAUSED' | 'STOPPED';
 
 export type Config = {
+  autostart: boolean;
   endTime: number | null;
   initialTime: number;
   interval: number;
   onTimeOver?: () => void;
   onTimeUpdate?: (time: number) => void;
-  autostart: boolean;
   step: number;
   timerType: TimerType;
 };

@@ -61,6 +61,37 @@ describe('Start', () => {
     expect(getByTestId('time').textContent).toBe('15');
   });
 
+  it('should start timer on updated initialTime value', () => {
+    // Given
+    const Component = ({ initialTime }: { initialTime: number }) => {
+      const { time, start } = useTimer({
+        initialTime,
+      });
+
+      return (
+        <div>
+          <button onClick={start}>Start</button>
+          <p data-testid="time">{time}</p>
+        </div>
+      );
+    };
+
+    const { getByRole, getByTestId, rerender } = render(
+      <Component initialTime={10} />
+    );
+    rerender(<Component initialTime={20} />);
+
+    // When
+    fireEvent.click(getByRole('button'));
+
+    act(() => {
+      jest.advanceTimersByTime(5000);
+    });
+
+    // Then
+    expect(getByTestId('time').textContent).toBe('25');
+  });
+
   it('should start decremental timer with an initial time of 100', () => {
     // Given
     const Component = () => {
@@ -626,5 +657,44 @@ describe('State and callbacks', () => {
     expect(onTimeUpdate).toHaveBeenCalledTimes(11);
     expect(onTimeUpdate).toHaveBeenNthCalledWith(5, 4);
     expect(onTimeUpdate).toHaveBeenLastCalledWith(10);
+  });
+
+  it('should call updated callback function when time is updated', () => {
+    // Given
+    const initialOnTimeUpdate = jest.fn();
+    const updatedOnTimeUpdate = jest.fn();
+    const Component = ({
+      onTimeUpdate,
+    }: {
+      onTimeUpdate: (time: number) => void;
+    }) => {
+      const { start } = useTimer({
+        endTime: 10,
+        initialTime: 0,
+        onTimeUpdate,
+      });
+
+      return (
+        <div>
+          <button onClick={start}>Start</button>
+        </div>
+      );
+    };
+
+    const { getByRole, rerender } = render(
+      <Component onTimeUpdate={initialOnTimeUpdate} />
+    );
+    rerender(<Component onTimeUpdate={updatedOnTimeUpdate} />);
+
+    // When
+    fireEvent.click(getByRole('button'));
+
+    act(() => {
+      jest.advanceTimersByTime(10000);
+    });
+
+    // Then
+    expect(initialOnTimeUpdate).toHaveBeenCalledTimes(1);
+    expect(updatedOnTimeUpdate).toHaveBeenCalledTimes(11);
   });
 });

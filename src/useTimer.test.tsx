@@ -61,35 +61,41 @@ describe('Start', () => {
     expect(getByTestId('time').textContent).toBe('15');
   });
 
-  it('should start timer on updated initialTime value', () => {
+  it('should re-start timer with updated initialTime', () => {
     // Given
-    const Component = ({ initialTime }: { initialTime: number }) => {
-      const { time, start } = useTimer({
+    const Component: React.FC<Partial<Config>> = ({ initialTime }) => {
+      const { time, start, reset } = useTimer({
         initialTime,
       });
 
       return (
         <div>
-          <button onClick={start}>Start</button>
+          <button data-testid="start" onClick={start}>
+            Start
+          </button>
+          <button data-testid="reset" onClick={reset}>
+            Reset
+          </button>
           <p data-testid="time">{time}</p>
         </div>
       );
     };
 
-    const { getByRole, getByTestId, rerender } = render(
-      <Component initialTime={10} />
-    );
+    const { getByTestId, rerender } = render(<Component initialTime={10} />);
+    const startButton = getByTestId('start');
+    const resetButton = getByTestId('reset');
+
+    // When
+    fireEvent.click(startButton);
+
     rerender(<Component initialTime={20} />);
 
     // When
-    fireEvent.click(getByRole('button'));
-
-    act(() => {
-      jest.advanceTimersByTime(5000);
-    });
+    fireEvent.click(resetButton);
+    fireEvent.click(startButton);
 
     // Then
-    expect(getByTestId('time').textContent).toBe('25');
+    expect(getByTestId('time').textContent).toBe('20');
   });
 
   it('should start decremental timer with an initial time of 100', () => {
@@ -663,10 +669,8 @@ describe('State and callbacks', () => {
     // Given
     const initialOnTimeUpdate = jest.fn();
     const updatedOnTimeUpdate = jest.fn();
-    const Component = ({
+    const Component: React.FC<Partial<Config>> = ({
       onTimeUpdate,
-    }: {
-      onTimeUpdate: (time: number) => void;
     }) => {
       const { start } = useTimer({
         endTime: 10,

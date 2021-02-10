@@ -4,13 +4,13 @@ import reducer from './state/reducer';
 
 export const useTimer = ({
   autostart = false,
-  endTime,
+  timerType = 'INCREMENTAL',
+  endTime = timerType === 'INCREMENTAL' ? null : 0,
   initialTime = 0,
   interval = 1000,
   onTimeOver,
   onTimeUpdate,
   step = 1,
-  timerType = 'INCREMENTAL',
 }: Partial<Config> = {}): ReturnValue => {
   const [state, dispatch] = useReducer(reducer, {
     status: 'STOPPED',

@@ -236,6 +236,35 @@ describe('Stop', () => {
     // Then
     expect(getByTestId('time').textContent).toBe('10');
   });
+
+  it('should stop decremental timer when time is 0', () => {
+    // Given
+    const Component = () => {
+      const { time, start } = useTimer({
+        initialTime: 30,
+        timerType: 'DECREMENTAL',
+      });
+
+      return (
+        <div>
+          <button onClick={start}>Start</button>
+          <p data-testid="time">{time}</p>
+        </div>
+      );
+    };
+
+    const { getByRole, getByTestId } = render(<Component />);
+
+    // When
+    fireEvent.click(getByRole('button'));
+
+    act(() => {
+      jest.advanceTimersByTime(30000);
+    });
+
+    // Then
+    expect(getByTestId('time').textContent).toBe('0');
+  });
 });
 
 describe('Pause', () => {

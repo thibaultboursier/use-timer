@@ -50,6 +50,22 @@ const App = () => {
 };
 ```
 
+### Two and more timers
+
+```tsx
+import React from 'react';
+import { useTimer } from 'use-timer';
+
+const App = () => {
+  const { time: firstTimer, start: startFirstTimer, pause: pauseFirstTimer } = useTimer();
+  const { time: secondTimer, start: startSecondTimer, pause: pauseSecondTimer } = useTimer();
+
+  return (
+    ...
+  );
+};
+```
+
 ### Decremental timer
 
 ```tsx
@@ -113,13 +129,13 @@ const { time, start, pause, reset, status } = useTimer({
 
 The configuration and all its parameters are optional.
 
-| Property     | Type     | Default value | Description                                                                            |
-| ------------ | -------- | ------------- | -------------------------------------------------------------------------------------- |
-| autostart    | boolean  | false         | Pass true to start timer automatically                                                 |
-| endTime      | number   | null          | The value for which timer stops                                                        |
-| initialTime  | number   | 0             | The starting value for the timer                                                       |
-| interval     | number   | 1000          | The interval in milliseconds                                                           |
-| onTimeOver   | function |               | Callback function that is called when time is over                                     |
-| onTimeUpdate | function |               | Callback function that is called when time is updated                                  |
-| step         | number   | 1             | The value to add to each increment / decrement                                         |
-| timerType    | string   | "INCREMENTAL" | The choice between a value that increases ("INCREMENTAL") or decreases ("DECREMENTAL") |
+| Property     | Type     | Default value | Description                                                                                                                   |
+| ------------ | -------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------|
+| autostart    | boolean  | false         | Pass true to start timer automatically                                                                                        |
+| endTime      | number   | null || 0     | The value for which timer stops. Null by default if timerType is "INCREMENTAL" and 0 by default if timerType is "DECREMENTAL" |
+| initialTime  | number   | 0             | The starting value for the timer                                                                                              |
+| interval     | number   | 1000          | The interval in milliseconds                                                                                                  |
+| onTimeOver   | function |               | Callback function that is called when time is over                                                                            |
+| onTimeUpdate | function |               | Callback function that is called when time is updated                                                                         |
+| step         | number   | 1             | The value to add to each increment / decrement                                                                                |
+| timerType    | string   | "INCREMENTAL" | The choice between a value that increases ("INCREMENTAL") or decreases ("DECREMENTAL")                                        |

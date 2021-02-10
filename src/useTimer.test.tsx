@@ -3,6 +3,7 @@ import React from 'react';
 import { useTimer } from './useTimer';
 import { act } from 'react-dom/test-utils';
 import { render, fireEvent } from '@testing-library/react';
+import { Config } from './types';
 
 jest.useFakeTimers();
 
@@ -669,9 +670,7 @@ describe('State and callbacks', () => {
     // Given
     const initialOnTimeUpdate = jest.fn();
     const updatedOnTimeUpdate = jest.fn();
-    const Component: React.FC<Partial<Config>> = ({
-      onTimeUpdate,
-    }) => {
+    const Component: React.FC<Partial<Config>> = ({ onTimeUpdate }) => {
       const { start } = useTimer({
         endTime: 10,
         initialTime: 0,

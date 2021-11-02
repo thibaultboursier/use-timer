@@ -5,6 +5,7 @@ export type Status = 'RUNNING' | 'PAUSED' | 'STOPPED';
 export type Config = {
   autostart: boolean;
   endTime: number | null;
+  initialStatus: Status;
   initialTime: number;
   interval: number;
   onTimeOver?: () => void;

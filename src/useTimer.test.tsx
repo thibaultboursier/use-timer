@@ -61,6 +61,52 @@ describe('Start', () => {
     expect(getByTestId('time').textContent).toBe('15');
   });
 
+  it('should start timer with an initial status of PAUSED', () => {
+    // Given
+    const Component = () => {
+      const { status, time } = useTimer({
+        initialStatus: 'PAUSED',
+      });
+
+      return (
+        <div>
+          <p data-testid="time">{time}</p>
+          <p data-testid="status">{status}</p>
+        </div>
+      );
+    };
+
+    const { getByTestId } = render(<Component />);
+
+    act(() => {
+      jest.advanceTimersByTime(5000);
+    });
+
+    // Then
+    expect(getByTestId('status').textContent).toBe('PAUSED');
+    expect(getByTestId('time').textContent).toBe('0');
+  });
+
+  it('should autostart timer with an initial status of RUNNING', () => {
+    // Given
+    const Component = () => {
+      const { time } = useTimer({
+        initialStatus: 'RUNNING',
+      });
+
+      return <p data-testid="time">{time}</p>;
+    };
+
+    const { getByTestId } = render(<Component />);
+
+    act(() => {
+      jest.advanceTimersByTime(20000);
+    });
+
+    // Then
+    expect(getByTestId('time').textContent).toBe('20');
+  });
+
   it('should start decremental timer with an initial time of 100', () => {
     // Given
     const Component = () => {

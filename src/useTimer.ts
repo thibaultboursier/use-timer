@@ -35,19 +35,19 @@ export const useTimer = ({
 
   const start = useCallback(() => {
     dispatch({ type: 'start', payload: { initialTime } });
-  }, []);
+  }, [initialTime]);
 
   useEffect(() => {
     if (autostart) {
       dispatch({ type: 'start', payload: { initialTime } });
     }
-  }, [autostart]);
+  }, [autostart, initialTime]);
 
   useEffect(() => {
     if (typeof onTimeUpdate === 'function') {
       onTimeUpdate(time);
     }
-  }, [time]);
+  }, [time, onTimeUpdate]);
 
   useEffect(() => {
     if (status !== 'STOPPED' && time === endTime) {
